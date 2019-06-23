@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>EZ-Draw</title>
+  <link rel="icon" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/favicon.ico" type="image/x-icon" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" href="../styleET.css" />
+
+<style type="text/css">
+/* Prop generales */
+body {
+  background-color: #ffffff; color: black;
+  font-family: sans-serif; font-size: 12pt;
+  padding: 0px; margin: 8px;
+}
+
+/* Taille des titres */
+h1 { font-size: 150%; }
+h2 { font-size: 140%; }
+h3 { font-size: 130%; }
+h4 { font-size: 120%; }
+h5 { font-size: 110%; }
+h6 { font-size: 100%; }
+
+/* Les ancres */
+a { text-decoration: none; color: #002bb8; background: none; }
+a:visited { color: #5a3696; }
+a:active { color: #faa700; }
+a:hover { text-decoration: underline; }
+
+/* Deco */
+.hor-trait { border-bottom: 1px solid #aaaaaa; padding-bottom: 12px;}
+.table1, .table2 { text-align: left; border-style: none; }
+.table1 { margin-left: 32px; border-spacing: 16px 8px; }
+.table2 td { vertical-align: top; }
+.table2 ul { margin: 0px; }
+.table2 { margin-left: 20px; }
+.li-empty { list-style-type: none; }
+
+/* Texte */
+.gras { font-weight: bold; }
+.justifier { text-align: justify; }
+.centrer { text-align: center; }
+.italique { font-style: italic; }
+.decaler { padding-left: 3em; padding-right: 1em; }
+</style>
+</head>
+<body>
+
+<div style="float: left;">
+  <span class="italique">Lien court :</span><br /> 
+  <a href="http://j.mp/ez-draw">j.mp/ez-draw</a>
+</div>
+
+<div style="float: right;">
+  <img title="Français" alt="Français" 
+    src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/images/flag-fr-32-sel.png"></img> &nbsp;
+  <a href="index-en.html"><img title="English" alt="English" 
+    src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/images/flag-en-32.png"></img></a> &nbsp;
+</div>
+
+<div class="centrer hor-trait">
+  <h1>EZ-Draw, pour dessiner en C</h1>
+  Copyright (c) 2008-2016 by Edouard Thiel
+  <a href="mailto:Edouard.Thiel@lif.univ-mrs.fr?subject=EZ-Draw">&lt;Edouard.Thiel@lif.univ-mrs.fr&gt;</a>
+</div> 
+
+<p class="justifier">
+  EZ-Draw ("Easy Draw") est une petite bo&icirc;te &agrave; outil graphique 
+  pour le langage C, fonctionnant &agrave; la fois
+  sous Linux, Mac OS X et Windows (toutes versions).
+</p>
+
+<p class="justifier">
+  EZ-Draw est con&ccedil;u pour l'apprentissage
+  de la programmation &eacute;v&eacute;nementielle et des interfaces graphiques. 
+  Il permet de cr&eacute;er de fa&ccedil;on tr&egrave;s simple
+  des fen&ecirc;tres, y dessiner, r&eacute;agir &agrave; la souris et au clavier, 
+  faire des animations.
+</p>
+
+<p class="justifier">
+  Le coeur de EZ-Draw est constitu&eacute; par un seul module C ;
+  bas&eacute; en interne sur la librairie Xlib (sous Unix) et sur l'API win32
+  (sous Windows), il masque tous les aspects techniques.
+</p>
+
+<p class="justifier">
+  Un second module permet de lire et d'afficher des images 
+  aux formats PNG, JPEG, GIF et BMP.
+</p>
+
+  <table class="table1">
+    <tr>
+      <td><a href="../EZ-Draw-1.2.tgz">EZ-Draw-1.2.tgz</a></td>
+      <td>T&eacute;l&eacute;chargez la version stable, pr&ecirc;te &agrave; 
+          compiler, avec les exemples et la documentation.</td>
+    </tr>
+    <tr>
+      <td><a href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/index.html">Snapshots</a></td>
+      <td>Quelques captures d'&eacute;cran.</td>
+    </tr>
+    <tr>
+      <td><a href="doc/fr/html/ez-manual.html">Documentation</a></td>
+      <td>Le tutorial et le manuel de r&eacute;f&eacute;rence.</td>
+    </tr>
+    <tr>
+      <td><a href="doc/fr/html/ez-install.html">Installation</a></td>
+      <td>Explique comment tout installer et compiler.</td>
+    </tr>
+    <tr>
+      <td><a href="LICENSE">LICENSE</a></td>
+      <td>GNU Lesser General Public Licence (LGPL).</td>
+    </tr>
+  </table>
+
+<h3>Les codes sources :</h3>
+
+<table class="table2">
+  <tr>
+    <td>
+      <ul>
+        <li> <a href="demo-01.c">demo-01.c</a> : premi&egrave;re fen&ecirc;tre.</li>
+        <li> <a href="demo-02.c">demo-02.c</a> : fen&ecirc;tre et &eacute;v&egrave;nements.</li>
+        <li> <a href="demo-03.c">demo-03.c</a> : tous les dessins.</li>
+        <li> <a href="demo-04.c">demo-04.c</a> : affichage de texte.</li>
+        <li> <a href="demo-05.c">demo-05.c</a> : trace les &eacute;v&egrave;nements.</li>
+        <li> <a href="demo-06.c">demo-06.c</a> : dessin &agrave; la souris.</li>
+        <li> <a href="demo-07.c">demo-07.c</a> : plusieurs fen&ecirc;tres.</li>
+        <li> <a href="demo-08.c">demo-08.c</a> : saisie de texte.</li>
+        <li> <a href="demo-09.c">demo-09.c</a> : animation simple.</li>
+        <li> <a href="demo-10.c">demo-10.c</a> : animations multiples.</li>
+        <li> <a href="demo-11.c">demo-11.c</a> : couleurs.</li>
+        <li> <a href="demo-12.c">demo-12.c</a> : palette HSV.</li>
+        <li> <a href="demo-13.c">demo-13.c</a> : affichage d'une image.</li>
+        <li> <a href="demo-14.c">demo-14.c</a> : images avec transparence.</li>
+        <li> <a href="demo-15.c">demo-15.c</a> : changement de taille.</li>
+        <li> <a href="demo-16.c">demo-16.c</a> : rotation d'image.</li>
+        <li> <a href="demo-17.c">demo-17.c</a> : pixmaps et fps.</li>
+        <li class="li-empty">&nbsp;</li>
+        <li> <a href="jeu-2048.c">jeu-2048.c</a> : jeu 2048 - puissances de 2 / Fibonacci.</li>
+        <li> <a href="jeu-bubblet.c">jeu-bubblet.c</a> : jeu Bubblet (ou Jawbreaker).</li>
+        <li> <a href="jeu-doodle.c">jeu-doodle.c</a> : Doodle à Londres (Doodle Jump).</li>
+        <li> <a href="jeu-ezen.c">jeu-ezen.c</a> : jeu ezen (puzzle Loops of Zen).</li>
+        <li> <a href="jeu-heziom.c">jeu-heziom.c</a> : jeu Heziom (puzzle hexagonal Hexiom).</li>
+        <li> <a href="jeu-laby.c">jeu-laby.c</a> : labyrinthe 3D.</li>
+        <li> <a href="jeu-nim.c">jeu-nim.c</a> : le jeu de NIM.</li>
+        <li> <a href="jeu-sudoku.c">jeu-sudoku.c</a> : jeu de sudoku.</li>
+        <li> <a href="jeu-tangram.c">jeu-tangram.c</a> : jeu de tangram (puzzle).</li>
+        <li> <a href="jeu-taquin.c">jeu-taquin.c</a> : jeu de taquin.</li>
+        <li> <a href="jeu-vie.c">jeu-vie.c</a> : jeu de la vie.</li>
+        <li> <a href="jeu-tetris.c">jeu-tetris.c</a> : jeu inspiré de Tétris.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li> <a href="ez-draw.h">ez-draw.h</a> :</li>
+        <li> <a href="ez-draw.c">ez-draw.c</a> : le module de base en C.</li>
+        <li class="li-empty">&nbsp;</li>
+        <li> <a href="ez-image.h">ez-image.h</a> :</li>
+        <li> <a href="ez-image.c">ez-image.c</a> : le module pour afficher des images.</li>
+        <li class="li-empty">&nbsp;</li>
+        <li> <a href="Makefile">Makefile</a> : pour tout compiler sous Unix ou Windows.</li>
+        <li> <a href="make.bat">make.bat</a> : pour aider la compilation sous Windows.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<h3>Projets alternatifs :</h3>
+
+  <table class="table1">
+    <tr>
+      <td><a href="http://eric.remy3.free.fr/EZ-Draw++/">EZ-Draw++</a></td>
+      <td>Une adaptation de EZ-Draw au langage et &agrave; la philosophie du C++.</td>
+    </tr>
+    <tr>
+      <td><a href="http://pageperso.lif.univ-mrs.fr/~benoit.favre/EZ-Draw-js/">EZ-Draw-js</a></td>
+      <td>Permet de compiler les programmes EZ-Draw en javascript + html5 pour qu'ils
+          s'affichent dans une page web.</td>
+    </tr>
+    <tr>
+      <td><a href="../ez-draw-gtk">EZ-Draw-GTK</a></td>
+      <td>Pr&eacute;sente les d&eacute;mos
+          de EZ-Draw r&eacute;&eacute;crites avec GTK+ 2.x en langage C.</td>
+    </tr>
+  </table>
+
+<div class="hor-trait"></div>
+<p>
+  Derni&egrave;re mise &agrave; jour : 2 juin 2016.
+</p>
+
+</body>
+</html>

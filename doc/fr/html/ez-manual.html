@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>EZ-Draw, pour dessiner en C &mdash; Documentation de EZ-Draw 1.2</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../share/ez-style-1.2.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Documentation de EZ-Draw 1.2" href="index.html" />
+    <link rel="next" title="1. Tutorial" href="ez-tutorial.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../en/html/ez-manual.html">English</a></li>
+        <li class="right">
+          <span class="current">Français</span> |</li>
+        <li><a href="../../../index.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="#">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ez-draw-pour-dessiner-en-c">
+<h1>EZ-Draw, pour dessiner en C<a class="headerlink" href="#ez-draw-pour-dessiner-en-c" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Dans cette documentation, vous découvrirez comment créer en quelques lignes de
+C des programmes qui dessinent dans des fenêtres, intéragissent avec l&#8217;utilisateur
+au clavier ou la souris, font des animations ou encore affichent des images.</p>
+<p>Tout est simplifié au maximum et tient sur quelques fichiers. Par pure magie,
+vos programmes fonctionneront sur Linux, Mac OS et Windows.</p>
+<dl class="docutils">
+<dt>Cette documentation est présentée en deux parties :</dt>
+<dd><ul class="first last simple">
+<li>un tutorial vous présente pas à pas les notions, avec de nombreux exemples ;</li>
+<li>le manuel de référence détaille toutes les fonctions disponibles.</li>
+</ul>
+</dd>
+</dl>
+<p>Pour faciliter la navigation, vous disposez aussi d&#8217;un index et d&#8217;une boîte de
+recherche rapide (à gauche).</p>
+<p>Bonne lecture !</p>
+<div class="section" id="table-des-matieres">
+<h2>Table des matières<a class="headerlink" href="#table-des-matieres" title="Lien permanent vers ce titre">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ez-tutorial.html">1. Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#premier-programme-avec-une-fenetre">1.1. Premier programme avec une fenêtre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#compilation">1.2. Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#gestion-des-evenements">1.3. Gestion des évènements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#les-dessins-et-les-couleurs">1.4. Les dessins et les couleurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#affichage-de-texte">1.5. Affichage de texte</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#tracer-les-evenements">1.6. Tracer les évènements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#dessiner-a-la-souris">1.7. Dessiner à la souris</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#gerer-plusieurs-fenetres">1.8. Gérer plusieurs fenêtres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#saisie-de-texte">1.9. Saisie de texte</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#animations">1.10. Animations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-tutorial.html#images">1.11. Images</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ez-reference.html">2. Manuel de référence</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#boucle-principale">2.1. Boucle principale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#fenetres">2.2. Fenêtres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#evenements">2.3. Évènements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#couleurs">2.4. Couleurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#dessins">2.5. Dessins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#texte-et-fontes">2.6. Texte et fontes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#double-buffer-d-affichage">2.7. Double-buffer d&#8217;affichage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#timers">2.8. Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#client-data">2.9. Client-data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#le-type-image">2.10. Le type image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#gestion-des-images">2.11. Gestion des images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#operations-sur-les-images">2.12. Opérations sur les images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#accelerer-l-affichage-des-images">2.13. Accélérer l&#8217;affichage des images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-reference.html#divers">2.14. Divers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ez-install.html">3. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#ubuntu-ou-debian">3.1. Ubuntu ou Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#fedora">3.2. Fedora</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#mac-os-x">3.3. Mac OS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#autres-unix">3.4. Autres Unix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#windows">3.5. Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#cygwin">3.6. Cygwin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#environnements-testes">3.7. Environnements testés</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#historique-des-versions">3.8. Historique des versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ez-install.html#contributeurs">3.9. Contributeurs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="quicklinks">
+  <a href="../../../index.html">Retour</a> |
+  <a href="#">Haut</a> |
+  <a href="#endpage">Bas</a>
+</p>
+<h3><a href="#">Table des Matières</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ez-tutorial.html">1. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ez-reference.html">2. Manuel de référence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ez-install.html">3. Installation</a></li>
+</ul>
+<h3 class="indexlink">
+  <a href="genindex.html#">Index</a>
+</h3>
+
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../en/html/ez-manual.html">English</a></li>
+        <li class="right">
+          <span class="current">Français</span> |</li>
+        <li><a href="../../../index.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="#">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Edouard Thiel.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+    <a name="endpage"></a>
+  </body>
+</html>

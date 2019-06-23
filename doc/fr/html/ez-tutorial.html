@@ -1,0 +1,2209 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Tutorial &mdash; Documentation de EZ-Draw 1.2</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../share/ez-style-1.2.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Documentation de EZ-Draw 1.2" href="index.html" />
+    <link rel="next" title="2. Manuel de référence" href="ez-reference.html" />
+    <link rel="prev" title="EZ-Draw, pour dessiner en C" href="ez-manual.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../en/html/ez-tutorial.html">English</a></li>
+        <li class="right">
+          <span class="current">Français</span> |</li>
+        <li><a href="../../../index.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="ez-manual.html">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<span id="chap-tutorial"></span><h1>1. Tutorial<a class="headerlink" href="#tutorial" title="Lien permanent vers ce titre">¶</a></h1>
+<p>La façon la plus simple de travailler est de programmer directement dans le
+répertoire de EZ-Draw en partant d&#8217;un exemple, et de compléter le <a class="reference external" href="../../../Makefile">Makefile</a>
+fourni, voir section <a class="reference internal" href="#sec-tut-compilation"><em>Compilation</em></a>.</p>
+<div class="section" id="premier-programme-avec-une-fenetre">
+<span id="sec-tut-first-prog"></span><span id="index-0"></span><h2>1.1. Premier programme avec une fenêtre<a class="headerlink" href="#premier-programme-avec-une-fenetre" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Écrivons un premier programme qui ouvre une fenêtre, appelé <tt class="docutils literal"><span class="pre">demo-01.c</span></tt>.
+Il faut commencer par inclure <a class="reference external" href="../../../ez-draw.h">ez-draw.h</a> (ligne 1, ci-dessous) :
+ce fichier décrit les types et prototypes du module principal de EZ-Draw,
+et il inclut aussi les fichiers <tt class="docutils literal"><span class="pre">.h</span></tt> standards tels que <tt class="docutils literal"><span class="pre">&lt;stdio.h&gt;</span></tt>,
+<tt class="docutils literal"><span class="pre">&lt;stdlib.h&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;string.h&gt;</span></tt> ; vous n&#8217;avez donc pas à vous en occuper.</p>
+<p>Dans le <tt class="docutils literal"><span class="pre">main</span></tt>, on initialise le module et le mode graphique en appelant
+<a class="reference internal" href="ez-reference.html#c.ez_init" title="ez_init"><tt class="xref c c-func docutils literal"><span class="pre">ez_init()</span></tt></a> ; si l&#8217;initialisation du mode graphique échoue, la fonction
+affiche un message d&#8217;erreur dans le terminal, puis renvoie -1.
+Dans ce cas, il faut sortir du programme en faisant <tt class="docutils literal"><span class="pre">exit(1)</span></tt> .</p>
+<p>Ensuite on crée une (ou plusieurs) fenêtre(s) avec la fonction
+<a class="reference internal" href="ez-reference.html#c.ez_window_create" title="ez_window_create"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_create()</span></tt></a>. Ces fenêtres sont affichées quand le programme atteint
+<a class="reference internal" href="ez-reference.html#c.ez_main_loop" title="ez_main_loop"><tt class="xref c c-func docutils literal"><span class="pre">ez_main_loop()</span></tt></a> : c&#8217;est cette fonction qui fait &#8220;vivre&#8221; les fenêtres.
+Elle s&#8217;arrête lorsqu&#8217;on appelle  <a class="reference internal" href="ez-reference.html#c.ez_quit" title="ez_quit"><tt class="xref c c-func docutils literal"><span class="pre">ez_quit()</span></tt></a>, ou lorsque toutes les fenêtres
+sont détruites.</p>
+<p>Voici le fichier <a class="reference external" href="../../../demo-01.c">demo-01.c</a> :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo 01: Hello World&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-01" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-01.png" />
+</div>
+</div>
+<div class="section" id="compilation">
+<span id="sec-tut-compilation"></span><span id="index-1"></span><h2>1.2. Compilation<a class="headerlink" href="#compilation" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Pour compiler <tt class="docutils literal"><span class="pre">demo-01.c</span></tt> dans un terminal sous Unix, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">gcc -Wall demo-01.c ez-draw.c -o demo-01 -lX11 -lXext</span>
+</pre></div>
+</div>
+<p>ou sous Windows, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">gcc -Wall demo-01.c ez-draw.c -o demo-01.exe -lgdi32</span>
+</pre></div>
+</div>
+<p>Pour exécuter le programme sous Unix, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./demo-01</span>
+</pre></div>
+</div>
+<p>ou sous Windows, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">demo-01</span>
+</pre></div>
+</div>
+<p id="index-2"><img alt="bullet" src="_images/pinkball.gif" /> À l&#8217;usage, il est beaucoup plus pratique d&#8217;utiliser la commande
+<tt class="docutils literal"><span class="pre">make</span></tt> au lieu de retaper chaque fois la ligne de commande de <tt class="docutils literal"><span class="pre">gcc</span></tt>.
+La commande <tt class="docutils literal"><span class="pre">make</span></tt> utilise le même fichier <a class="reference external" href="../../../Makefile">Makefile</a> sous Unix et Windows.</p>
+<p>Pour tout compiler la première fois, ou pour recompiler les fichiers
+C modifiés, il suffit de taper dans le terminal, quelque soit votre système :</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">make all</span>
+</pre></div>
+</div>
+<p>En cas d&#8217;erreur, voir le chapitre <a class="reference external" href="ez-install.html">Installation</a>.
+Si tout est à jour, <tt class="docutils literal"><span class="pre">make</span></tt> affiche :
+<tt class="docutils literal"><span class="pre">make:</span> <span class="pre">Rien</span> <span class="pre">à</span> <span class="pre">faire</span> <span class="pre">pour</span> <span class="pre">«</span> <span class="pre">all</span> <span class="pre">».</span></tt>
+Vous pouvez toujours forcer une recompilation générale en tapant :</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">make clean all</span>
+</pre></div>
+</div>
+<p>Enfin si vous souhaitez faire le ménage, par exemple avant de faire une
+sauvegarde, tapez :</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">make distclean</span>
+</pre></div>
+</div>
+<p>Cela effacera tous les exécutables et fichiers temporaires, et ne conservera
+que les fichiers sources.</p>
+<dl class="docutils">
+<dt><em>Exercice :</em></dt>
+<dd>Éditez le fichier <tt class="docutils literal"><span class="pre">demo-01.c</span></tt>, et modifiez le titre par
+<tt class="docutils literal"><span class="pre">&quot;Mon</span> <span class="pre">premier</span> <span class="pre">programme&quot;</span></tt>. Compilez en utilisant <tt class="docutils literal"><span class="pre">make</span></tt> puis
+exécutez le programme.</dd>
+</dl>
+<p><img alt="bullet" src="_images/pinkball.gif" /> Voyons maintenant comment rajouter un nouveau programme. Il suffit
+d&#8217;éditer le fichier <a class="reference external" href="../../../Makefile">Makefile</a>, et de rajouter section C le nom de l&#8217;exécutable
+dans la liste <tt class="docutils literal"><span class="pre">EXECS</span></tt>, <tt class="docutils literal"><span class="pre">EXECS_M</span></tt> ou <tt class="docutils literal"><span class="pre">EXECS_IM</span></tt>, puis d&#8217;enregistrer.
+On peut alors taper <tt class="docutils literal"><span class="pre">make</span> <span class="pre">all</span></tt> pour compiler le nouveau programme.
+Il y a plusieurs listes pour distinguer les cas :</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">EXECS</span></tt> : pour compiler uniquement avec <a class="reference external" href="../../../ez-draw.c">ez-draw.c</a> ;</li>
+<li><tt class="docutils literal"><span class="pre">EXECS_M</span></tt> : pour compiler avec <a class="reference external" href="../../../ez-draw.c">ez-draw.c</a> et <tt class="docutils literal"><span class="pre">-lm</span></tt> (la librairie math) ;</li>
+<li><tt class="docutils literal"><span class="pre">EXECS_IM</span></tt> : pour compiler avec <a class="reference external" href="../../../ez-draw.c">ez-draw.c</a>, <tt class="docutils literal"><span class="pre">-lm</span></tt> et <a class="reference external" href="../../../ez-image.c">ez-image.c</a> (pour afficher des images).</li>
+</ul>
+<p>Voici les listes actuelles dans le <a class="reference external" href="../../../Makefile">Makefile</a> :</p>
+<div class="highlight-makefile"><div class="highlight"><pre><span class="nv">EXECS</span> <span class="o">=</span> demo-01 demo-02 demo-03 demo-04 demo-05 demo-06 demo-07 demo-08 <span class="se">\</span>
+        demo-09 demo-11 jeu-sudoku jeu-nim jeu-vie jeu-taquin jeu-2048 <span class="se">\</span>
+        jeu-tetris
+
+<span class="nv">EXECS_M</span> <span class="o">=</span> demo-10 jeu-laby jeu-ezen jeu-heziom jeu-tangram
+
+<span class="nv">EXECS_IM</span> <span class="o">=</span> demo-12 demo-13 demo-14 demo-15 demo-16 demo-17 <span class="se">\</span>
+</pre></div>
+</div>
+<p>Comme vous pouvez le constater, lorsqu&#8217;une liste est sur plusieurs lignes,
+les lignes intermédiaires sont terminées par un <tt class="docutils literal"><span class="pre">\</span></tt>.</p>
+<dl class="docutils">
+<dt><em>Exercice :</em></dt>
+<dd>Recopiez le fichier <tt class="docutils literal"><span class="pre">demo-01.c</span></tt> en <tt class="docutils literal"><span class="pre">essai1.c</span></tt>, et rajoutez
+<tt class="docutils literal"><span class="pre">essai1</span></tt> dans le <a class="reference external" href="../../../Makefile">Makefile</a>.
+Compilez en utilisant <tt class="docutils literal"><span class="pre">make</span></tt> puis exécutez le programme.</dd>
+</dl>
+<p><img alt="bullet" src="_images/pinkball.gif" /> Vous pouvez utiliser le <a class="reference external" href="../../../Makefile">Makefile</a> fourni pour des projets plus
+élaborés découpés en plusieurs modules.
+Supposons que votre exécutable s&#8217;appelle <tt class="docutils literal"><span class="pre">monappli</span></tt>,
+que votre projet utilise les modules <tt class="docutils literal"><span class="pre">ez-draw.c</span></tt>, <tt class="docutils literal"><span class="pre">ez-image.c</span></tt>, <tt class="docutils literal"><span class="pre">monprog.c</span></tt>
+et <tt class="docutils literal"><span class="pre">divers.c</span></tt>, et que vous avez besoin des librairies <tt class="docutils literal"><span class="pre">-lm</span></tt> et <tt class="docutils literal"><span class="pre">-lgomp</span></tt>.
+Il vous suffit de renseigner les champs <tt class="docutils literal"><span class="pre">EXECS_PRO</span></tt>, <tt class="docutils literal"><span class="pre">OBJS_PRO</span></tt> et
+<tt class="docutils literal"><span class="pre">LIBS_PRO</span></tt>  dans le <a class="reference external" href="../../../Makefile">Makefile</a> section D comme ceci :</p>
+<div class="highlight-makefile"><div class="highlight"><pre><span class="nv">EXECS_PRO</span> <span class="o">=</span> monappli
+<span class="nv">OBJS_PRO</span>  <span class="o">=</span> ez-draw.o ez-image.o monprog.o divers.o
+<span class="nv">LIBS_PRO</span>  <span class="o">=</span> -lm -lgomp
+</pre></div>
+</div>
+<p><img alt="bullet" src="_images/pinkball.gif" /> Enfin, si vous voulez créer votre projet dans un
+nouveau répertoire, voici les fichiers qu&#8217;il faudra recopier dedans :</p>
+<ul class="simple">
+<li><a class="reference external" href="../../../ez-draw.h">ez-draw.h</a> et <a class="reference external" href="../../../ez-draw.c">ez-draw.c</a> (c&#8217;est le module de base),</li>
+<li><a class="reference external" href="../../../ez-image.h">ez-image.h</a> et <a class="reference external" href="../../../ez-image.c">ez-image.c</a> (si vous comptez afficher des images),</li>
+<li><a class="reference external" href="../../../Makefile">Makefile</a> et <a class="reference external" href="../../../make.bat">make.bat</a>.</li>
+</ul>
+<p>Il suffira de vider les listes <tt class="docutils literal"><span class="pre">EXECS</span></tt> dans le <a class="reference external" href="../../../Makefile">Makefile</a> et de
+compléter les champs nécessaires.</p>
+</div>
+<div class="section" id="gestion-des-evenements">
+<span id="sec-tut-event-handler"></span><span id="index-3"></span><h2>1.3. Gestion des évènements<a class="headerlink" href="#gestion-des-evenements" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Nous allons maintenant nous intéresser à la gestion des évènements dans les
+fenêtres.</p>
+<p>Les paramètres de la fonction <a class="reference internal" href="ez-reference.html#c.ez_window_create" title="ez_window_create"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_create()</span></tt></a> responsable de la
+création d&#8217;une fenêtre sont :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">Ez_window</span> <span class="nf">ez_window_create</span> <span class="p">(</span><span class="kt">int</span> <span class="n">w</span><span class="p">,</span> <span class="kt">int</span> <span class="n">h</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">Ez_func</span> <span class="n">on_event</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">w</span></tt> est la largeur (width) de l&#8217;intérieur de la fenêtre en pixels,
+<tt class="docutils literal"><span class="pre">h</span></tt> est la hauteur (height),
+<tt class="docutils literal"><span class="pre">name</span></tt> est le titre de la fenêtre ;
+<tt class="docutils literal"><span class="pre">on_event</span></tt> est la fonction d&#8217;évènement de la fenêtre, voir ci-dessous.</p>
+<p>Le résultat de  <a class="reference internal" href="ez-reference.html#c.ez_window_create" title="ez_window_create"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_create()</span></tt></a> est de type <a class="reference internal" href="ez-reference.html#c.Ez_window" title="Ez_window"><tt class="xref c c-type docutils literal"><span class="pre">Ez_window</span></tt></a> ;
+il sert à identifier la fenêtre, et on peut l&#8217;afficher dans le terminal
+sous une forme hexadécimale :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">Ez_window</span> <span class="n">win1</span><span class="p">;</span>
+<span class="n">win1</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo 0: Hello World&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="n">printf</span> <span class="p">(</span><span class="s">&quot;win1 = 0x%x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">win1</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Pour être en mesure de réagir aux actions de l&#8217;utilisateur (touches clavier,
+mouvement de souris, clics de souris, etc) il faut réaliser ce qu&#8217;on nomme une
+<em>gestion d&#8217;évènements</em> ; c&#8217;est pourquoi on donne la fonction <tt class="docutils literal"><span class="pre">on_event</span></tt>
+en 4e argument de <a class="reference internal" href="ez-reference.html#c.ez_window_create" title="ez_window_create"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_create()</span></tt></a>.</p>
+<p id="index-4">La fonction d&#8217;évènement <tt class="docutils literal"><span class="pre">on_event</span></tt>, encore appelée <em>callback</em>, est une fonction
+de votre programme (ou <tt class="docutils literal"><span class="pre">NULL</span></tt> comme dans l&#8217;exemple <tt class="docutils literal"><span class="pre">demo-01</span></tt>).
+Cette fonction sera automatiquement appelée par  <a class="reference internal" href="ez-reference.html#c.ez_main_loop" title="ez_main_loop"><tt class="xref c c-func docutils literal"><span class="pre">ez_main_loop()</span></tt></a> lors de
+chaque évènement concernant la fenêtre.</p>
+<p>La fonction <tt class="docutils literal"><span class="pre">on_event</span></tt>  doit obligatoirement avoir le prototype suivant :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>La variable <tt class="docutils literal"><span class="pre">ev</span></tt> pointe sur un struct dont les champs décrivent
+l&#8217;évènement ; en particulier, <tt class="docutils literal"><span class="pre">ev-&gt;win</span></tt> indique la fenêtre concernée
+par l&#8217;évènement. On détaille les autres champs de <tt class="docutils literal"><span class="pre">ev</span></tt> dans la section
+<a class="reference internal" href="#sec-tut-all-events"><em>Tracer les évènements</em></a>.</p>
+<p>Découvrons deux évènements dans l&#8217;exemple suivant
+<a class="reference external" href="../../../demo-02.c">demo-02.c</a> :</p>
+<ul class="simple">
+<li>Le gestionnaire de fenêtre indique à votre programme si vos fenêtres doivent
+être redessinées  (la première fois qu&#8217;elles apparaissent, si une autre fenêtre
+est passée devant, etc).
+Lorsque cela arrive, l&#8217;évènement <tt class="docutils literal"><span class="pre">Expose</span></tt> est déclenché. Vous devez
+alors redessiner l&#8217;ensemble du contenu de la fenêtre <tt class="docutils literal"><span class="pre">ev-&gt;win</span></tt>.</li>
+</ul>
+<ul class="simple">
+<li>Lorsque l&#8217;utilisateur enfonce une touche, l&#8217;évènement <tt class="docutils literal"><span class="pre">KeyPress</span></tt> est
+déclenché. Le code de la touche est disponible dans <tt class="docutils literal"><span class="pre">ev-&gt;key_sym</span></tt>
+(pour <em>key symbol</em>). Chaque code de touche correspond à une constante
+préfixée par <tt class="docutils literal"><span class="pre">XK_</span></tt>, par exemple ici <tt class="docutils literal"><span class="pre">XK_q</span></tt> pour la touche &#8220;q&#8221;.</li>
+</ul>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>                <span class="cm">/* Called by ez_main_loop() */</span>
+<span class="p">{</span>                                                <span class="cm">/* for each event on win1   */</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">case</span> <span class="n">Expose</span> :                           <span class="cm">/* We must redraw everything */</span>
+            <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_red</span><span class="p">);</span>
+            <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_MC</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> 
+                <span class="s">&quot;To quit, press the key &#39;q&#39;, or click</span><span class="se">\n</span><span class="s">&quot;</span>
+                <span class="s">&quot;on the Close button of the window&quot;</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="n">KeyPress</span> :                                 <span class="cm">/* A key was pressed */</span>
+            <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo 02: Window and events&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-02" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-02.png" />
+</div>
+<p>Cet exemple <a class="reference external" href="../../../demo-02.c">demo-02.c</a> est une première façon de gérer les événements, avec
+un gros <tt class="docutils literal"><span class="pre">switch</span></tt> dans <tt class="docutils literal"><span class="pre">win1_on_event</span></tt>.
+L&#8217;inconvénient de cette méthode est que le <tt class="docutils literal"><span class="pre">switch</span></tt> peut rapidement grossir
+lorsqu&#8217;on augmente le programme, au risque de rendre le programme illisible.
+C&#8217;est pourquoi il vaut mieux éclater <tt class="docutils literal"><span class="pre">win1_on_event</span></tt> en fonctions
+spécialisées par événement (toujours avec un <tt class="docutils literal"><span class="pre">switch</span></tt>),
+ce que l&#8217;on fait dans la section suivante.</p>
+</div>
+<div class="section" id="les-dessins-et-les-couleurs">
+<span id="sec-tut-drawings-colors"></span><span id="index-5"></span><h2>1.4. Les dessins et les couleurs<a class="headerlink" href="#les-dessins-et-les-couleurs" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Comme expliqué dans la section précédente,
+l&#8217;évènement <tt class="docutils literal"><span class="pre">Expose</span></tt> signifie qu&#8217;il faut redessiner le contenu
+de la fenêtre, ce qu&#8217;on fait dans l&#8217;exemple suivant en appelant
+<tt class="docutils literal"><span class="pre">win1_on_expose</span></tt>. À noter : pour chaque <tt class="docutils literal"><span class="pre">Expose</span></tt>, EZ-Draw
+vide entièrement la fenêtre (avec un fond blanc) avant de passer
+l&#8217;évènement à votre programme.</p>
+<p>La liste des dessins est donné dans la section <a class="reference internal" href="ez-reference.html#sec-ref-drawings"><em>Dessins</em></a>.
+Les coordonnées sont relatives à l&#8217;origine, qui est le coin en haut à gauche
+de l&#8217;intérieur de la fenêtre, avec <tt class="docutils literal"><span class="pre">x</span></tt> vers la droite et <tt class="docutils literal"><span class="pre">y</span></tt>
+vers le bas.</p>
+<p>Les dessins sont automatiquements coupés par le bord de la fenêtre,
+il n&#8217;y a donc pas à se préoccuper de savoir si un dessin risque de
+dépasser ou pas.</p>
+<p>Les dessins sont faits dans l&#8217;épaisseur courante (par défaut 1 pixel).
+On peut changer l&#8217;épaisseur courante avec  <a class="reference internal" href="ez-reference.html#c.ez_set_thick" title="ez_set_thick"><tt class="xref c c-func docutils literal"><span class="pre">ez_set_thick()</span></tt></a>,
+voir <a class="reference internal" href="ez-reference.html#sec-ref-drawings"><em>Dessins</em></a>.</p>
+<p>Les dessins sont faits dans la couleur courante (par défaut en noir).
+Pour changer la couleur courante, on appelle  <a class="reference internal" href="ez-reference.html#c.ez_set_color" title="ez_set_color"><tt class="xref c c-func docutils literal"><span class="pre">ez_set_color()</span></tt></a> en lui
+donnant un numéro de couleur. Quelques couleurs sont prédéfinies :
+<tt class="docutils literal"><span class="pre">ez_black</span></tt>, <tt class="docutils literal"><span class="pre">ez_white</span></tt>, <tt class="docutils literal"><span class="pre">ez_grey</span></tt>, <tt class="docutils literal"><span class="pre">ez_red</span></tt>, <tt class="docutils literal"><span class="pre">ez_green</span></tt>, <tt class="docutils literal"><span class="pre">ez_blue</span></tt>,
+<tt class="docutils literal"><span class="pre">ez_yellow</span></tt>, <tt class="docutils literal"><span class="pre">ez_cyan</span></tt>, <tt class="docutils literal"><span class="pre">ez_magenta</span></tt>.
+On peut créer d&#8217;autres couleurs, voir <a class="reference internal" href="ez-reference.html#sec-ref-colors"><em>Couleurs</em></a>.</p>
+<p>Voici le fichier <a class="reference external" href="../../../demo-03.c">demo-03.c</a> :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_magenta</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span>      <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s">&quot;Thickness 1&quot;</span><span class="p">);</span>
+    <span class="n">ez_set_thick</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">ez_draw_point</span>     <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span>  <span class="mi">50</span><span class="p">);</span>
+    <span class="n">ez_draw_line</span>      <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span>  <span class="mi">60</span><span class="p">,</span>  <span class="mi">35</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span>  <span class="mi">70</span><span class="p">);</span>
+    <span class="n">ez_draw_rectangle</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span>  <span class="mi">70</span><span class="p">);</span>
+    <span class="n">ez_draw_circle</span>    <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span>  <span class="mi">70</span><span class="p">);</span>
+    <span class="n">ez_draw_triangle</span>  <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span>  <span class="mi">70</span><span class="p">);</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_black</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span>      <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s">&quot;Thickness 2&quot;</span><span class="p">);</span>
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_cyan</span><span class="p">);</span>
+    <span class="n">ez_set_thick</span> <span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="n">ez_draw_point</span>     <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">130</span><span class="p">);</span>
+    <span class="n">ez_draw_line</span>      <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span>  <span class="mi">60</span><span class="p">,</span> <span class="mi">115</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">ez_draw_rectangle</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">ez_draw_circle</span>    <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">ez_draw_triangle</span>  <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_blue</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span>      <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="s">&quot;Thickness 9&quot;</span><span class="p">);</span>
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_green</span><span class="p">);</span>
+    <span class="n">ez_set_thick</span> <span class="p">(</span><span class="mi">9</span><span class="p">);</span>
+    <span class="n">ez_draw_point</span>     <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">210</span><span class="p">);</span>
+    <span class="n">ez_draw_line</span>      <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span>  <span class="mi">60</span><span class="p">,</span> <span class="mi">195</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">230</span><span class="p">);</span>
+    <span class="n">ez_draw_rectangle</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">230</span><span class="p">);</span>
+    <span class="n">ez_draw_circle</span>    <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">230</span><span class="p">);</span>
+    <span class="n">ez_draw_triangle</span>  <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">230</span><span class="p">);</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_red</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span>      <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="s">&quot;Fill&quot;</span><span class="p">);</span>
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_yellow</span><span class="p">);</span>
+    <span class="n">ez_fill_rectangle</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">310</span><span class="p">);</span>
+    <span class="n">ez_fill_circle</span>    <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">310</span><span class="p">);</span>
+    <span class="n">ez_fill_triangle</span>  <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">310</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>                <span class="cm">/* Called by ez_main_loop() */</span>
+<span class="p">{</span>                                                <span class="cm">/* for each event on win1   */</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>   : <span class="n">win1_on_expose</span>    <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span> : <span class="n">win1_on_key_press</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="s">&quot;Demo 03: All drawings&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-03" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-03.png" />
+</div>
+</div>
+<div class="section" id="affichage-de-texte">
+<span id="sec-tut-displaying-text"></span><span id="index-6"></span><h2>1.5. Affichage de texte<a class="headerlink" href="#affichage-de-texte" title="Lien permanent vers ce titre">¶</a></h2>
+<p>On peut afficher du texte n&#8217;importe où dans la fenêtre à l&#8217;aide de
+la fonction  <a class="reference internal" href="ez-reference.html#c.ez_draw_text" title="ez_draw_text"><tt class="xref c c-func docutils literal"><span class="pre">ez_draw_text()</span></tt></a>. Elle prend en argument la fenêtre,
+le type d&#8217;alignement <tt class="docutils literal"><span class="pre">align</span></tt>,
+puis des coordonnées <tt class="docutils literal"><span class="pre">x1,y1</span></tt>, enfin une chaîne de caractères
+à imprimer, ou comme dans <tt class="docutils literal"><span class="pre">printf</span></tt>, un format et des paramètres.
+Tout est détaillé dans <a class="reference internal" href="ez-reference.html#sec-ref-fonts"><em>Texte et fontes</em></a>.</p>
+<p>La chaîne de caractères peut comporter des <tt class="docutils literal"><span class="pre">\n</span></tt>, ceci provoquera
+des saut de lignes dans l&#8217;affichage.
+L&#8217;affichage de texte se fait dans la couleur courante, modifiable par
+<a class="reference internal" href="ez-reference.html#c.ez_set_color" title="ez_set_color"><tt class="xref c c-func docutils literal"><span class="pre">ez_set_color()</span></tt></a>.</p>
+<p>Dans l&#8217;exemple suivant <a class="reference external" href="../../../demo-04.c">demo-04.c</a> on illustre
+l&#8217;affichage de texte, ainsi que l&#8217;usage de <a class="reference internal" href="ez-reference.html#c.ez_window_get_size" title="ez_window_get_size"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_get_size()</span></tt></a> pour
+faire un dessin qui s&#8217;adapte aux changements de taille de la fenêtre.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">;</span>
+
+    <span class="n">ez_window_get_size</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">w</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">h</span><span class="p">);</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_black</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ez_set_nfont</span> <span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TC</span><span class="p">,</span> <span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">25</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="s">&quot;Font number %d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>                           <span class="cm">/* like a printf */</span>
+    <span class="p">}</span>
+
+    <span class="n">ez_set_nfont</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_red</span><span class="p">);</span>
+
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TL</span><span class="p">,</span>   <span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Top</span><span class="se">\n</span><span class="s">Left&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TC</span><span class="p">,</span> <span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Top</span><span class="se">\n</span><span class="s">Center&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TR</span><span class="p">,</span> <span class="n">w</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Top</span><span class="se">\n</span><span class="s">Right&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_ML</span><span class="p">,</span>   <span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Middle</span><span class="se">\n</span><span class="s">Left&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_MR</span><span class="p">,</span> <span class="n">w</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Middle</span><span class="se">\n</span><span class="s">Right&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BL</span><span class="p">,</span>   <span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Bottom</span><span class="se">\n</span><span class="s">Left&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BC</span><span class="p">,</span> <span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Bottom</span><span class="se">\n</span><span class="s">Center&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BR</span><span class="p">,</span> <span class="n">w</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Bottom</span><span class="se">\n</span><span class="s">Right&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>   : <span class="n">win1_on_expose</span>    <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span> : <span class="n">win1_on_key_press</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo 04: Displaying text&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-04" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-04.png" />
+</div>
+</div>
+<div class="section" id="tracer-les-evenements">
+<span id="sec-tut-all-events"></span><span id="index-7"></span><h2>1.6. Tracer les évènements<a class="headerlink" href="#tracer-les-evenements" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Dans l&#8217;exemple suivant on recense tous les évènements possibles
+et on affiche dans le terminal les champs utilisables de la variable <tt class="docutils literal"><span class="pre">ev</span></tt>
+(les autres champs sont réinitialisés à 0).
+Voir aussi la section <a class="reference internal" href="ez-reference.html#sec-ref-events"><em>Évènements</em></a>.</p>
+<p>Par défaut, le bouton &#8220;Fermer&#8221; dans la barre de titre d&#8217;une des fenêtres de
+l&#8217;application provoque la fin du programme. On peut changer ce réglage
+d&#8217;origine en faisant  <a class="reference internal" href="ez-reference.html#c.ez_auto_quit" title="ez_auto_quit"><tt class="xref c c-func docutils literal"><span class="pre">ez_auto_quit(0)</span></tt></a> :
+le bouton &#8220;Fermer&#8221; provoquera l&#8217;évènement <tt class="docutils literal"><span class="pre">WindowClose</span></tt>, comme dans l&#8217;exemple
+suivant :</p>
+<p>Voici le fichier <a class="reference external" href="../../../demo-05.c">demo-05.c</a> :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>              <span class="cm">/* We must redraw everything */</span>
+<span class="p">{</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_MC</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> 
+        <span class="s">&quot;Events are traced</span><span class="se">\n</span><span class="s">in the terminal.</span><span class="se">\n\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;Type &#39;q&#39; to quit.&quot;</span><span class="p">);</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;Expose           win = 0x%x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">));</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_button_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>             <span class="cm">/* Mouse button pressed */</span>
+<span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;ButtonPress      win = 0x%x  mx = %d  my = %d  mb = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+        <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mx</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">my</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mb</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_button_release</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>          <span class="cm">/* Mouse button released */</span>
+<span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;ButtonRelease    win = 0x%x  mx = %d  my = %d  mb = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+        <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mx</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">my</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mb</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_motion_notify</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>                     <span class="cm">/* Mouse moved */</span>
+<span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;MotionNotify     win = 0x%x  mx = %d  my = %d  mb = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+        <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mx</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">my</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mb</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>                         <span class="cm">/* Key pressed */</span>
+<span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;KeyPress         win = 0x%x  mx = %d  my = %d  &quot;</span>
+            <span class="s">&quot;key_sym = 0x%x  key_name = %s  key_count = %d  key_string = </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;\n</span><span class="s">&quot;</span><span class="p">,</span>
+        <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mx</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">my</span><span class="p">,</span>
+        <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_name</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_count</span><span class="p">,</span>
+        <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span> <span class="o">==</span> <span class="n">XK_Return</span> <span class="o">||</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span> <span class="o">==</span> <span class="n">XK_KP_Enter</span> <span class="o">?</span> <span class="s">&quot;&quot;</span> <span class="o">:</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_string</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_release</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>                      <span class="cm">/* Key released */</span>
+<span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;KeyRelease       win = 0x%x  mx = %d  my = %d  &quot;</span>
+            <span class="s">&quot;key_sym = 0x%x  key_name = %s  key_count = %d  key_string = </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;\n</span><span class="s">&quot;</span><span class="p">,</span>
+        <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">mx</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">my</span><span class="p">,</span>
+        <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_name</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_count</span><span class="p">,</span>
+        <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span> <span class="o">==</span> <span class="n">XK_Return</span> <span class="o">||</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span> <span class="o">==</span> <span class="n">XK_KP_Enter</span> <span class="o">?</span> <span class="s">&quot;&quot;</span> <span class="o">:</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_string</span><span class="p">);</span>
+     <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_configure_notify</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>          <span class="cm">/* Window size changed */</span>
+<span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;ConfigureNotify  win = 0x%x  width = %d  height = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+        <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_window_close</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>             <span class="cm">/* Close button pressed */</span>
+<span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;WindowClose      win = 0x%x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ez_window_get_id</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">));</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>                <span class="cm">/* Called by ez_main_loop() */</span>
+<span class="p">{</span>                                                <span class="cm">/* for each event on win1   */</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>          : <span class="n">win1_on_expose</span>           <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">ButtonPress</span>     : <span class="n">win1_on_button_press</span>     <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">ButtonRelease</span>   : <span class="n">win1_on_button_release</span>   <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">MotionNotify</span>    : <span class="n">win1_on_motion_notify</span>    <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span>        : <span class="n">win1_on_key_press</span>        <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyRelease</span>      : <span class="n">win1_on_key_release</span>      <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">ConfigureNotify</span> : <span class="n">win1_on_configure_notify</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">WindowClose</span>     : <span class="n">win1_on_window_close</span>     <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">default</span> <span class="o">:</span>
+             <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;Unknown event: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo 05: Tracing events&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="n">ez_auto_quit</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>  <span class="cm">/* to get WindowClose event */</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-05" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-05.png" />
+</div>
+<p>Remarque : les évènements <tt class="docutils literal"><span class="pre">TimerNotify</span></tt> ne sont pas traités ici,
+voir <a class="reference internal" href="ez-reference.html#sec-ref-timers"><em>Timers</em></a>.</p>
+</div>
+<div class="section" id="dessiner-a-la-souris">
+<span id="sec-tut-drawing-with-mouse"></span><span id="index-8"></span><h2>1.7. Dessiner à la souris<a class="headerlink" href="#dessiner-a-la-souris" title="Lien permanent vers ce titre">¶</a></h2>
+<p>L&#8217;exemple présenté dans cette section permet de dessiner une ligne polygonale
+à la souris. Les coordonnées des sommets sont mémorisées dans des variables globales
+(on pourrait aussi éviter d&#8217;avoir des variables globales, voir <a class="reference internal" href="ez-reference.html#sec-ref-client-data"><em>Client-data</em></a>).
+Chaque fois que le bouton de la souris est cliqué, un sommet est
+inséré ; à chaque déplacement de la souris avec bouton enfoncé, le dernier
+sommet est déplacé.</p>
+<p>Par principe (et pour des raisons techniques), les dessins ne peuvent
+être faits que lors de l&#8217;évènement <tt class="docutils literal"><span class="pre">Expose</span></tt>. Si l&#8217;on veut mettre à jour
+le dessin dans la fenêtre lors d&#8217;un autre évènement, il suffit d&#8217;envoyer
+l&#8217;évènement <tt class="docutils literal"><span class="pre">Expose</span></tt> avec la fonction  <a class="reference internal" href="ez-reference.html#c.ez_send_expose" title="ez_send_expose"><tt class="xref c c-func docutils literal"><span class="pre">ez_send_expose()</span></tt></a>.
+C&#8217;est ce que l&#8217;on fait ici pour les évènements
+<tt class="docutils literal"><span class="pre">ButtonPress</span></tt>, <tt class="docutils literal"><span class="pre">MotionNotify</span></tt> et <tt class="docutils literal"><span class="pre">KeyPress</span></tt>.</p>
+<p>Voici le fichier <a class="reference external" href="../../../demo-06.c">demo-06.c</a> :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+<span class="cp">#define VER_MAX 100</span>
+<span class="kt">int</span> <span class="n">ver_nb</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ver_x</span><span class="p">[</span><span class="n">VER_MAX</span><span class="p">],</span> <span class="n">ver_y</span><span class="p">[</span><span class="n">VER_MAX</span><span class="p">];</span>
+
+
+<span class="kt">void</span> <span class="nf">vertex_clear</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">ver_nb</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">vertex_insert</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ver_nb</span> <span class="o">&gt;=</span> <span class="n">VER_MAX</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+    <span class="n">ver_x</span><span class="p">[</span><span class="n">ver_nb</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">ver_y</span><span class="p">[</span><span class="n">ver_nb</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">ver_nb</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">vertex_move</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ver_nb</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">ver_nb</span> <span class="o">&gt;=</span> <span class="n">VER_MAX</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+    <span class="n">ver_x</span><span class="p">[</span><span class="n">ver_nb</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">ver_y</span><span class="p">[</span><span class="n">ver_nb</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">draw_vertices</span> <span class="p">(</span><span class="n">Ez_window</span> <span class="n">win</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_blue</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ver_nb</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">ez_draw_rectangle</span> <span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">ver_x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">ver_y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">ver_x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">ver_y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">draw_segments</span> <span class="p">(</span><span class="n">Ez_window</span> <span class="n">win</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_grey</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ver_nb</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">ez_draw_line</span> <span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">ver_x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ver_y</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ver_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ver_y</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_black</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s">&quot;Click and drag the mouse in the window to draw.</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;Type Space to clear the window, &#39;q&#39; to quit.&quot;</span><span class="p">);</span>
+    <span class="n">draw_segments</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+    <span class="n">draw_vertices</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_button_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">vertex_insert</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">mx</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">my</span><span class="p">);</span>
+    <span class="n">ez_send_expose</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_motion_notify</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">mb</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>                            <span class="cm">/* No button pressed */</span>
+    <span class="n">vertex_move</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">mx</span><span class="p">,</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">my</span><span class="p">);</span>
+    <span class="n">ez_send_expose</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : 
+            <span class="n">ez_quit</span> <span class="p">();</span> 
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">XK_space</span> : 
+            <span class="n">vertex_clear</span> <span class="p">();</span>
+            <span class="n">ez_send_expose</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span> 
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>       : <span class="n">win1_on_expose</span>        <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">ButtonPress</span>  : <span class="n">win1_on_button_press</span>  <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">MotionNotify</span> : <span class="n">win1_on_motion_notify</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span>     : <span class="n">win1_on_key_press</span>     <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Ez_window</span> <span class="n">win1</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">win1</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo 06: Drawing wih the mouse&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="cm">/* Enable double buffer to prevent window flashes */</span>
+    <span class="n">ez_window_dbuf</span> <span class="p">(</span><span class="n">win1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-06" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-06.png" />
+</div>
+</div>
+<div class="section" id="gerer-plusieurs-fenetres">
+<span id="sec-tut-several-windows"></span><span id="index-9"></span><h2>1.8. Gérer plusieurs fenêtres<a class="headerlink" href="#gerer-plusieurs-fenetres" title="Lien permanent vers ce titre">¶</a></h2>
+<p>On peut créer autant de fenêtre que l&#8217;on veut, par des appels
+à  <a class="reference internal" href="ez-reference.html#c.ez_window_create" title="ez_window_create"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_create()</span></tt></a>. Chaque fenêtre créée est immédiatement affichée
+par dessus les autres fenêtres. Pour faire détruire une fenêtre <tt class="docutils literal"><span class="pre">win</span></tt> (et donc
+la faire disparaître de l&#8217;écran), utiliser
+<a class="reference internal" href="ez-reference.html#c.ez_window_destroy" title="ez_window_destroy"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_destroy(win)</span></tt></a>.</p>
+<p>On peut cacher une fenêtre <tt class="docutils literal"><span class="pre">win</span></tt> (c&#8217;est-à-dire la rendre invisible) avec
+<a class="reference internal" href="ez-reference.html#c.ez_window_show" title="ez_window_show"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_show(win,</span> <span class="pre">0)</span></tt></a> puis la rendre visible (par
+dessus les autres fenêtres) avec <a class="reference internal" href="ez-reference.html#c.ez_window_show" title="ez_window_show"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_show(win,</span> <span class="pre">1)</span></tt></a>.</p>
+<p>Dans l&#8217;exemple qui suit, on paramètre la boucle principale en faisant
+<a class="reference internal" href="ez-reference.html#c.ez_auto_quit" title="ez_auto_quit"><tt class="xref c c-func docutils literal"><span class="pre">ez_auto_quit(0)</span></tt></a> : le bouton &#8220;Fermer&#8221; de la barre de
+titre d&#8217;une fenêtre ne provoquera plus la fin du programme, mais provoquera
+l&#8217;évènement <tt class="docutils literal"><span class="pre">WindowClose</span></tt>. Selon la fenêtre incriminée, on cache la fenêtre,
+détruit la fenêtre ou quitte le programme.</p>
+<p>Voici le fichier <a class="reference external" href="../../../demo-07.c">demo-07.c</a> :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+<span class="cm">/* Global variables */</span>
+<span class="n">Ez_window</span> <span class="n">win1</span><span class="p">,</span> <span class="n">win2</span><span class="p">,</span> <span class="n">win3</span> <span class="o">=</span> <span class="n">None</span><span class="p">;</span> <span class="kt">int</span> <span class="n">show2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+
+<span class="kt">void</span> <span class="nf">win3_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s">&quot;If you close this window, it will be destroyed.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="cm">/* The user has clicked on the Close button of the window */</span>
+
+<span class="kt">void</span> <span class="nf">win3_on_window_close</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">ev</span><span class="p">;</span>  <span class="cm">/* Tell the compiler that ev is unused */</span>
+    <span class="n">ez_window_destroy</span> <span class="p">(</span><span class="n">win3</span><span class="p">);</span> <span class="n">win3</span> <span class="o">=</span> <span class="n">None</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win3_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>      : <span class="n">win3_on_expose</span>       <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">WindowClose</span> : <span class="n">win3_on_window_close</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win2_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s">&quot;If you close this window, it will be hidden.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win2_on_window_close</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">ev</span><span class="p">;</span>
+    <span class="n">ez_window_show</span> <span class="p">(</span><span class="n">win2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="n">show2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win2_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>      : <span class="n">win2_on_expose</span>       <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">WindowClose</span> : <span class="n">win2_on_window_close</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s">&quot;Click in this window (to get the keyboard focus),</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;then type :</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;    - on &#39;m&#39; to show or hide window 2;</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;    - on &#39;c&#39; to create or destroy window 3;</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;    - on &#39;q&#39; to quit.</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="s">&quot;If you close this window, the program will end.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="n">XK_m</span> :
+            <span class="n">show2</span> <span class="o">=</span> <span class="o">!</span><span class="n">show2</span><span class="p">;</span>                       <span class="cm">/* show or hide the window */</span>
+            <span class="n">ez_window_show</span> <span class="p">(</span><span class="n">win2</span><span class="p">,</span> <span class="n">show2</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="n">XK_c</span> :
+            <span class="k">if</span> <span class="p">(</span><span class="n">win3</span> <span class="o">==</span> <span class="n">None</span><span class="p">)</span>      <span class="cm">/* if the window doesn&#39;t exist, create it */</span>
+                <span class="n">win3</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">380</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="s">&quot;Window 3&quot;</span><span class="p">,</span> <span class="n">win3_on_event</span><span class="p">);</span>
+            <span class="k">else</span> <span class="p">{</span> <span class="n">ez_window_destroy</span> <span class="p">(</span><span class="n">win3</span><span class="p">);</span> <span class="n">win3</span> <span class="o">=</span> <span class="n">None</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_window_close</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">ev</span><span class="p">;</span>
+    <span class="n">ez_quit</span> <span class="p">();</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>      : <span class="n">win1_on_expose</span>       <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span>    : <span class="n">win1_on_key_press</span>    <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">WindowClose</span> : <span class="n">win1_on_window_close</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">win1</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo 07: Several windows&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+    <span class="n">win2</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="s">&quot;Window 2&quot;</span><span class="p">,</span> <span class="n">win2_on_event</span><span class="p">);</span>
+    <span class="n">ez_window_show</span> <span class="p">(</span><span class="n">win2</span><span class="p">,</span> <span class="n">show2</span><span class="p">);</span>
+
+    <span class="cm">/* By default, closing any window will cause the end of the program.</span>
+<span class="cm">       We change this behaviour: for now on, closing any window will send </span>
+<span class="cm">       a WindowClose event for this window. */</span>
+    <span class="n">ez_auto_quit</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-07" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-07.png" />
+</div>
+</div>
+<div class="section" id="saisie-de-texte">
+<span id="sec-tut-text-input"></span><span id="index-10"></span><h2>1.9. Saisie de texte<a class="headerlink" href="#saisie-de-texte" title="Lien permanent vers ce titre">¶</a></h2>
+<p>L&#8217;exemple suivant <a class="reference external" href="../../../demo-08.c">demo-08.c</a> montre comment lire au
+clavier une chaîne de caractères,
+supprimer des caractères avec la touche Backspace, et détecter la frappe
+de la touche Entrée pour déclencher une action.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+<span class="cp">#define BUF_MAX 80</span>
+<span class="kt">char</span> <span class="n">buf1</span><span class="p">[</span><span class="n">BUF_MAX</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">buf2</span><span class="p">[</span><span class="n">BUF_MAX</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+
+
+<span class="cm">/* Return 1 if text must be displayed again, 2 if text is validated, else 0 */</span>
+
+<span class="kt">int</span> <span class="nf">text_input</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">case</span> <span class="n">XK_BackSpace</span> :                                 <span class="cm">/* Backspace key */</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">strlen</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="n">XK_Return</span> :                                        <span class="cm">/* Enter key */</span>
+            <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+
+        <span class="k">default</span> <span class="o">:</span>                                      <span class="cm">/* Insert a character */</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_count</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">strlen</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">BUF_MAX</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_string</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">text_display</span> <span class="p">(</span><span class="n">Ez_window</span> <span class="n">win</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s1</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s2</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_black</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TL</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&quot;Text: %s_&quot;</span><span class="p">,</span> <span class="n">s1</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span> <span class="p">(</span><span class="n">buf2</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_blue</span><span class="p">);</span>
+        <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TC</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span>
+            <span class="s">&quot;You have validated this text:</span><span class="se">\n</span><span class="s">%s&quot;</span><span class="p">,</span> <span class="n">s2</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">text_display</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">buf1</span><span class="p">,</span> <span class="n">buf2</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">text_input</span> <span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="n">buf1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="n">strncpy</span> <span class="p">(</span><span class="n">buf2</span><span class="p">,</span> <span class="n">buf1</span><span class="p">,</span> <span class="n">BUF_MAX</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">ez_send_expose</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>   : <span class="n">win1_on_expose</span>    <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span> : <span class="n">win1_on_key_press</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="s">&quot;Demo 08: Text input&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-08" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-08.png" />
+</div>
+</div>
+<div class="section" id="animations">
+<span id="sec-tut-animations"></span><span id="index-11"></span><h2>1.10. Animations<a class="headerlink" href="#animations" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Pour réaliser une animation il faut deux ingrédients supplémentaires :
+un timer (voir <a class="reference internal" href="ez-reference.html#sec-ref-timers"><em>Timers</em></a>) pour entretenir la séquence temporelle,
+et un double buffer d&#8217;affichage (voir <a class="reference internal" href="ez-reference.html#sec-ref-dbuf"><em>Double-buffer d&#8217;affichage</em></a>) pour éviter que
+l&#8217;affichage ne clignote.</p>
+<dl class="docutils">
+<dt>Attention :</dt>
+<dd>il ne faut surtout pas employer <tt class="docutils literal"><span class="pre">sleep</span></tt> ou <tt class="docutils literal"><span class="pre">usleep</span></tt> car
+ces fonction empêchent les callbacks de &#8220;rendre la main&#8221; à  <a class="reference internal" href="ez-reference.html#c.ez_main_loop" title="ez_main_loop"><tt class="xref c c-func docutils literal"><span class="pre">ez_main_loop()</span></tt></a>, et donc
+elles figent l&#8217;affichage et l&#8217;interface (ou les perturbent fortement).</dd>
+</dl>
+<p>Le principe d&#8217;une animation est le suivant :</p>
+<ul class="simple">
+<li>on démarre un timer dans <tt class="docutils literal"><span class="pre">main</span></tt>, qui provoque un évènement <tt class="docutils literal"><span class="pre">TimerNotify</span></tt>
+quelques millisecondes plus tard ;</li>
+</ul>
+<ul class="simple">
+<li>à réception de cet évènement <tt class="docutils literal"><span class="pre">TimerNotify</span></tt> dans la callback de la fenêtre,
+on fait trois choses :<ul>
+<li>on incrémente un compteur (ou des coordonnées) permettant de modifier la
+position de l&#8217;objet à animer ;</li>
+<li>on émet un évènement <tt class="docutils literal"><span class="pre">Expose</span></tt> pour que l&#8217;affichage soit refait ;</li>
+<li>enfin, on réarme le timer pour qu&#8217;il y ait un prochain évènement <tt class="docutils literal"><span class="pre">TimerNotify</span></tt>
+(on obtient une espèce de &#8220;boucle&#8221; de <tt class="docutils literal"><span class="pre">TimerNotify</span></tt> temporisée) ;</li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li>chaque fois qu&#8217;un évènement <tt class="docutils literal"><span class="pre">Expose</span></tt> est reçu, on redessine la fenêtre
+en tenant compte du compteur (ou des coordonnées) pour dessiner l&#8217;objet animé
+dans sa position courante. Il ne faut pas dessiner pour un autre évènement,
+car cela perturberait le double-buffer d&#8217;affichage.
+De plus, EZ-Draw optimise l&#8217;affichage en éliminant les évènements <tt class="docutils literal"><span class="pre">Expose</span></tt>
+inutiles.</li>
+</ul>
+<p>Voici un premier exemple simple avec le fichier <a class="reference external" href="../../../demo-09.c">demo-09.c</a>
+affiché ci-dessous. L&#8217;animation consiste à faire grossir un cercle au milieu de
+la fenêtre ; elle s&#8217;adapte également à la taille de la fenêtre.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+<span class="cp">#define MAX_CPT1 100</span>
+
+<span class="cm">/* We can avoid global variables by using ez_set_data(), see demo-10.c</span>
+<span class="cm">   and the next examples */</span>
+<span class="kt">int</span> <span class="n">count1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">win1_w</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">win1_h</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">delay1</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* We draw based on count1 */</span>
+    <span class="kt">int</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">win1_w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">rx</span> <span class="o">=</span> <span class="n">xc</span> <span class="o">*</span> <span class="n">count1</span> <span class="o">/</span> <span class="n">MAX_CPT1</span><span class="p">,</span>
+        <span class="n">yc</span> <span class="o">=</span> <span class="n">win1_h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">yc</span> <span class="o">*</span> <span class="n">count1</span> <span class="o">/</span> <span class="n">MAX_CPT1</span><span class="p">;</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_magenta</span><span class="p">);</span> 
+    <span class="n">ez_set_thick</span> <span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+    <span class="n">ez_draw_circle</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">xc</span><span class="o">-</span><span class="n">rx</span><span class="p">,</span> <span class="n">yc</span><span class="o">-</span><span class="n">ry</span><span class="p">,</span> <span class="n">xc</span><span class="o">+</span><span class="n">rx</span><span class="p">,</span> <span class="n">yc</span><span class="o">+</span><span class="n">ry</span><span class="p">);</span>
+
+    <span class="n">ez_set_color</span> <span class="p">(</span><span class="n">ez_black</span><span class="p">);</span> <span class="n">ez_set_nfont</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_BL</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">win1_h</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="s">&quot;q: quit&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_configure_notify</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">win1_w</span> <span class="o">=</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">;</span> <span class="n">win1_h</span> <span class="o">=</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_timer_notify</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>            <span class="cm">/* The timer has expired */</span>
+<span class="p">{</span>
+    <span class="cm">/* We increment the counter count1 so as to modify the position of the</span>
+<span class="cm">       object to animate */</span>
+    <span class="n">count1</span> <span class="o">=</span> <span class="p">(</span><span class="n">count1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX_CPT1</span><span class="p">;</span>
+    <span class="cm">/* We send an Expose event so that the window will be displayed again */</span>
+    <span class="n">ez_send_expose</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+    <span class="cm">/* We restart the timer to maintain a &quot;loop&quot; or TimerNotify events,</span>
+<span class="cm">       which is iterated each delay1 milliseconds */</span>
+    <span class="n">ez_start_timer</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">delay1</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>          : <span class="n">win1_on_expose</span>           <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span>        : <span class="n">win1_on_key_press</span>        <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">ConfigureNotify</span> : <span class="n">win1_on_configure_notify</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">TimerNotify</span>     : <span class="n">win1_on_timer_notify</span>     <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Ez_window</span> <span class="n">win1</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">win1</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="n">win1_w</span><span class="p">,</span> <span class="n">win1_h</span><span class="p">,</span> <span class="s">&quot;Demo 09: Hypnosis&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="cm">/* Enable double buffer to prevent window flashes */</span>
+    <span class="n">ez_window_dbuf</span> <span class="p">(</span><span class="n">win1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="cm">/* Start a timer to get a TimerNotify event in delay1 milliseconds:</span>
+<span class="cm">       this is the starting point of the &quot;loop&quot; of TimerNotify events. */</span>
+    <span class="n">ez_start_timer</span> <span class="p">(</span><span class="n">win1</span><span class="p">,</span> <span class="n">delay1</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-09" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-09.png" />
+</div>
+<p>L&#8217;exemple suivant <a class="reference external" href="../../../demo-10.c">demo-10.c</a> illustre les animations
+multiples : on fait tourner les aiguilles d&#8217;une montre dans une
+fenêtre (on peut faire pause avec la touche espace), tandis qu&#8217;une balle rebondit
+sur une raquette dans une seconde fenêtre (que l&#8217;on peut agrandir).</p>
+<p>On obtient ces fenêtres :</p>
+<div class="centrer container">
+<img alt="demo-10-1" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-10-1.png" />
+<img alt="demo-10-2" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-10-2.png" />
+</div>
+<p>Cet exemple <a class="reference external" href="../../../demo-10.c">demo-10.c</a> illustre également comment attacher une information (par
+exemple un <tt class="docutils literal"><span class="pre">struct</span></tt>) à une fenêtre, pour éviter les variables globales.
+Pour plus d&#8217;explications voir <a class="reference internal" href="ez-reference.html#sec-ref-client-data"><em>Client-data</em></a>.
+On se sert beaucoup de cette possibilité dans la partie suivante.</p>
+</div>
+<div class="section" id="images">
+<span id="sec-tut-images"></span><span id="index-12"></span><h2>1.11. Images<a class="headerlink" href="#images" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Dans les sections précédentes on a vu tout ce que l&#8217;on pouvait faire
+avec le module de base.</p>
+<p>EZ-Draw contient un second module, <a class="reference external" href="../../../ez-image.c">ez-image.c</a>,
+qui permet de charger et d&#8217;afficher des images en couleur au format
+PNG, JPEG, GIF ou BMP, ou encore de créer une image en mémoire et de
+dessiner dedans. Tout est détaillé dans les sections <a class="reference internal" href="ez-reference.html#sec-ref-images-type"><em>Le type image</em></a>
+et suivantes.</p>
+<p>Pour utiliser ce module il faut inclure <a class="reference external" href="../../../ez-image.h">ez-image.h</a>.
+Voici l&#8217;exemple <a class="reference external" href="../../../demo-13.c">demo-13.c</a>
+dans lequel on récupère un nom de fichier image en argument
+de la ligne de commande, puis on charge l&#8217;image et enfin on l&#8217;affiche :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+<span class="cp">#include &quot;ez-image.h&quot;</span>
+
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">Ez_image</span> <span class="o">*</span><span class="n">image1</span><span class="p">;</span>
+    <span class="n">Ez_window</span> <span class="n">win1</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">App_data</span><span class="p">;</span>
+
+
+<span class="kt">void</span> <span class="nf">app_data_init</span> <span class="p">(</span><span class="n">App_data</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span> <span class="o">=</span> <span class="n">ez_image_load</span> <span class="p">(</span><span class="n">filename</span><span class="p">);</span>                   <span class="cm">/* Load an image */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">exit</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">app_data_destroy</span> <span class="p">(</span><span class="n">App_data</span> <span class="o">*</span><span class="n">a</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_image_destroy</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="p">);</span>                           <span class="cm">/* Destroy image */</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">App_data</span> <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="n">ez_get_data</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+
+    <span class="n">ez_image_paint</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">win1</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>              <span class="cm">/* Display image */</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>   : <span class="n">win1_on_expose</span>    <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span> : <span class="n">win1_on_key_press</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;images/tux2.gif&quot;</span><span class="p">;</span>
+    <span class="n">App_data</span> <span class="n">a</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span><span class="o">-</span><span class="mi">1</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+         <span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Usage: %s image</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="k">else</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">app_data_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="n">filename</span><span class="p">);</span>
+
+    <span class="n">a</span><span class="p">.</span><span class="n">win1</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span>                   <span class="cm">/* Resize window for image */</span>
+        <span class="n">a</span><span class="p">.</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">,</span> 
+        <span class="n">filename</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+    <span class="n">ez_set_data</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">win1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
+    <span class="n">ez_window_dbuf</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">win1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+
+    <span class="n">app_data_destroy</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient par exemple cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-13" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-13.png" />
+</div>
+<p id="index-13">Pour compiler cet exemple <tt class="docutils literal"><span class="pre">demo-13.c</span></tt> sous Unix, taper :</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">gcc -Wall demo-13.c ez-draw.c ez-image.c -o demo-13 -lX11 -lXext -lm</span>
+</pre></div>
+</div>
+<p>ou sous Windows, taper :</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">gcc -Wall demo-13.c ez-draw.c ez-image.c -o demo-13.exe -lgdi32 -lmsimg32 -lm</span>
+</pre></div>
+</div>
+<p>On peut également rajouter le nom de l&#8217;exécutable à la fin de <tt class="docutils literal"><span class="pre">EXECS_IM</span> <span class="pre">=</span></tt>
+dans le <a class="reference external" href="../../../Makefile">Makefile</a>, puis taper <tt class="docutils literal"><span class="pre">make</span> <span class="pre">all</span></tt>  pour compiler.</p>
+<p>Les formats PNG, GIF et BMP permettent de mémoriser le degré de transparence, dans
+ce qu&#8217;on appelle le canal alpha. Les formats GIF et BMP codent le canal alpha sur
+1 bit ; les pixels sont soit transparents (0), soit opaques (255). Le format PNG
+code le canal alpha sur 8 bits (de 0 pour transparent à 255 pour opaque).</p>
+<p>Le module <tt class="docutils literal"><span class="pre">ez-image</span></tt> est capable d&#8217;afficher une image en tenant compte
+de la transparence, en utilisant un seuil d&#8217;opacité sur le canal alpha :
+les pixels sont soit opaques (affichés), soit transparents (non affichés).</p>
+<p>L&#8217;exemple suivant <a class="reference external" href="../../../demo-14.c">demo-14.c</a> récupère deux noms de
+fichiers en argument de la ligne de commande, puis superpose les deux images.
+On peut ensuite déplacer la
+seconde image avec les flèches, ou modifier le seuil d&#8217;opacité avec les touches
+<tt class="docutils literal"><span class="pre">+</span></tt> et <tt class="docutils literal"><span class="pre">-</span></tt>.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+<span class="cp">#include &quot;ez-image.h&quot;</span>
+
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i2_x</span><span class="p">,</span> <span class="n">i2_y</span><span class="p">;</span>
+    <span class="n">Ez_image</span> <span class="o">*</span><span class="n">image1</span><span class="p">,</span> <span class="o">*</span><span class="n">image2</span><span class="p">;</span>
+    <span class="n">Ez_window</span> <span class="n">win1</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">App_data</span><span class="p">;</span>
+
+
+<span class="kt">void</span> <span class="nf">app_data_init</span> <span class="p">(</span><span class="n">App_data</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filename1</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filename2</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span> <span class="o">=</span> <span class="n">ez_image_load</span> <span class="p">(</span><span class="n">filename1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">exit</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span> <span class="o">=</span> <span class="n">ez_image_load</span> <span class="p">(</span><span class="n">filename2</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">exit</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="cm">/* Initial position is centered */</span>
+    <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">width</span>  <span class="o">-</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span><span class="o">-&gt;</span><span class="n">width</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">height</span> <span class="o">-</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">app_data_destroy</span> <span class="p">(</span><span class="n">App_data</span> <span class="o">*</span><span class="n">a</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ez_image_destroy</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="p">);</span>
+    <span class="n">ez_image_destroy</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">App_data</span> <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="n">ez_get_data</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+
+    <span class="n">ez_image_paint</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">win1</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">ez_image_paint</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">win1</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_x</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_y</span><span class="p">);</span> 
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">win1</span><span class="p">,</span> <span class="n">EZ_BLF</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">height</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> 
+        <span class="s">&quot;[Arrows] to move&quot;</span><span class="p">);</span>
+    <span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">win1</span><span class="p">,</span> <span class="n">EZ_BRF</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">width</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">height</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> 
+        <span class="s">&quot;Opacity [+-] : %d&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span><span class="o">-&gt;</span><span class="n">opacity</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_key_press</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">App_data</span> <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="n">ez_get_data</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">key_sym</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">XK_q</span> : <span class="n">ez_quit</span> <span class="p">();</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">XK_Left</span>        : 
+        <span class="k">case</span> <span class="n">XK_KP_Left</span>     : <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_x</span><span class="o">--</span> <span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">XK_Right</span>       :
+        <span class="k">case</span> <span class="n">XK_KP_Right</span>    : <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_x</span><span class="o">++</span> <span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">XK_Up</span>          : 
+        <span class="k">case</span> <span class="n">XK_KP_Up</span>       : <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_y</span><span class="o">--</span> <span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">XK_Down</span>        : 
+        <span class="k">case</span> <span class="n">XK_KP_Down</span>     : <span class="n">a</span><span class="o">-&gt;</span><span class="n">i2_y</span><span class="o">++</span> <span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">XK_minus</span>       :
+        <span class="k">case</span> <span class="n">XK_KP_Subtract</span> : <span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span><span class="o">-&gt;</span><span class="n">opacity</span><span class="o">--</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">XK_plus</span>        :
+        <span class="k">case</span> <span class="n">XK_KP_Add</span>      : <span class="n">a</span><span class="o">-&gt;</span><span class="n">image2</span><span class="o">-&gt;</span><span class="n">opacity</span><span class="o">++</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">default</span>             <span class="o">:</span> <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">ez_send_expose</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">win1</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span>   : <span class="n">win1_on_expose</span>    <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">KeyPress</span> : <span class="n">win1_on_key_press</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">file1</span> <span class="o">=</span> <span class="s">&quot;images/paper1.jpg&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">file2</span> <span class="o">=</span> <span class="s">&quot;images/tux1.png&quot;</span><span class="p">;</span>
+    <span class="n">App_data</span> <span class="n">a</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span><span class="o">-</span><span class="mi">1</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Usage: %s image1 image2</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="n">file1</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="n">file2</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">app_data_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="n">file1</span><span class="p">,</span> <span class="n">file2</span><span class="p">);</span>
+
+    <span class="n">a</span><span class="p">.</span><span class="n">win1</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">width</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">image1</span><span class="o">-&gt;</span><span class="n">height</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> 
+        <span class="s">&quot;Demo 14: Images with transparency&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+    <span class="n">ez_set_data</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">win1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
+    <span class="n">ez_window_dbuf</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">win1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+
+    <span class="n">app_data_destroy</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>On obtient par exemple cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-14" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-14.png" />
+</div>
+<p>Il est également possible de créer une image en mémoire, puis d&#8217;affecter
+les couleurs des pixels. L&#8217;exemple <a class="reference external" href="../../../demo-12.c">demo-12.c</a> affiche
+la palette de couleurs HSV à l&#8217;aide d&#8217;une image calculée en mémoire.</p>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-12" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-12.png" />
+</div>
+<p>Vous trouverez plus d&#8217;informations sur les images dans le <a class="reference internal" href="ez-reference.html#chap-ref-manual"><em>Manuel de référence</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="quicklinks">
+  <a href="../../../index.html">Retour</a> |
+  <a href="#">Haut</a> |
+  <a href="#endpage">Bas</a>
+</p>
+<h3><a href="ez-manual.html">Table des Matières</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">1. Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#premier-programme-avec-une-fenetre">1.1. Premier programme avec une fenêtre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compilation">1.2. Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gestion-des-evenements">1.3. Gestion des évènements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#les-dessins-et-les-couleurs">1.4. Les dessins et les couleurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#affichage-de-texte">1.5. Affichage de texte</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tracer-les-evenements">1.6. Tracer les évènements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dessiner-a-la-souris">1.7. Dessiner à la souris</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gerer-plusieurs-fenetres">1.8. Gérer plusieurs fenêtres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#saisie-de-texte">1.9. Saisie de texte</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#animations">1.10. Animations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#images">1.11. Images</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ez-reference.html">2. Manuel de référence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ez-install.html">3. Installation</a></li>
+</ul>
+<h3 class="indexlink">
+  <a href="genindex.html#">Index</a>
+</h3>
+
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../en/html/ez-tutorial.html">English</a></li>
+        <li class="right">
+          <span class="current">Français</span> |</li>
+        <li><a href="../../../index.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="ez-manual.html">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Edouard Thiel.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+    <a name="endpage"></a>
+  </body>
+</html>

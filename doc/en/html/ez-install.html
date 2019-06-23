@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Installation &mdash; Documentation of EZ-Draw 1.2</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../share/ez-style-1.2.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Documentation of EZ-Draw 1.2" href="index.html" />
+    <link rel="prev" title="2. Reference manual" href="ez-reference.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <span class="current">English</span></li>
+        <li class="right">
+          <a href="../../fr/html/ez-install.html">Français</a> |</li>
+        <li><a href="../../../index-en.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="ez-manual.html">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<span id="chap-install"></span><h1>3. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Learn how to install EZ-Draw on GNU/Linux (Ubuntu, Debian, Fedora, etc.),
+on Mac OS X or Windows, all versions.</p>
+<div class="section" id="ubuntu-or-debian">
+<h2>3.1. Ubuntu or Debian<a class="headerlink" href="#ubuntu-or-debian" title="Permalink to this headline">¶</a></h2>
+<p>First install the development packages:
+open a terminal and type (or copy-paste):</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">sudo apt-get install libx11-dev x11proto-xext-dev libxext-dev</span>
+</pre></div>
+</div>
+<p>Download the file <a class="reference external" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/EZ-Draw-1.2.tgz">EZ-Draw-1.2.tgz</a> with your web browser,
+save the file, then move it into your home directory using the file manager.
+Next, type in the terminal:</p>
+<pre class="literal-block">
+tar xvfz EZ-Draw-1.2.tgz
+cd EZ-Draw-1.2
+make -j all
+</pre>
+<p>After a few moments, modules EZ-Draw, demos and games are compiled.
+To run <tt class="docutils literal"><span class="pre">demo-01</span></tt>, type in the terminal:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./demo-01</span>
+</pre></div>
+</div>
+<p>and so on for the other demos and games
+(for instance <tt class="docutils literal"><span class="pre">./jeu-bubblet</span></tt> or <tt class="docutils literal"><span class="pre">./jeu-doddle</span></tt>).
+Next, read the <a class="reference external" href="ez-tutorial.html">tutorial</a>.</p>
+</div>
+<div class="section" id="fedora">
+<h2>3.2. Fedora<a class="headerlink" href="#fedora" title="Permalink to this headline">¶</a></h2>
+<p>First install the development packages:
+open a terminal and type (or copy-paste):</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">sudo yum install gcc libX11-devel libXext-devel xorg-x11-fonts-misc</span>
+</pre></div>
+</div>
+<p>then type <tt class="docutils literal"><span class="pre">y</span></tt> to validate.</p>
+<p>Download the file <a class="reference external" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/EZ-Draw-1.2.tgz">EZ-Draw-1.2.tgz</a> with your web browser,
+save the file, then move it into your home directory using the file manager.
+Next, type in the terminal:</p>
+<pre class="literal-block">
+tar xvfz EZ-Draw-1.2.tgz
+cd EZ-Draw-1.2
+make -j all
+</pre>
+<p>After a few moments, modules EZ-Draw, demos and games are compiled.
+To run <tt class="docutils literal"><span class="pre">demo-01</span></tt>, type in the terminal:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./demo-01</span>
+</pre></div>
+</div>
+<p>and so on for the other demos and games
+(for instance <tt class="docutils literal"><span class="pre">./jeu-bubblet</span></tt> or <tt class="docutils literal"><span class="pre">./jeu-doddle</span></tt>).
+Next, read the <a class="reference external" href="ez-tutorial.html">tutorial</a>.</p>
+</div>
+<div class="section" id="mac-os-x">
+<h2>3.3. Mac OS X<a class="headerlink" href="#mac-os-x" title="Permalink to this headline">¶</a></h2>
+<p>First install <tt class="docutils literal"><span class="pre">XCode</span></tt> from <a class="reference external" href="https://developer.apple.com/xcode/download/">https://developer.apple.com/xcode/download/</a> using
+the App Store.
+This is the development environment of Mac OS X, which includes in particular
+<tt class="docutils literal"><span class="pre">gcc</span></tt> and <tt class="docutils literal"><span class="pre">make</span></tt>.</p>
+<p>Then install <tt class="docutils literal"><span class="pre">Xquartz</span></tt> from <a class="reference external" href="http://www.xquartz.org/">http://www.xquartz.org/</a> , which provides the
+X11 drawing libraries, necessary for EZ-Draw to work.</p>
+<p>Download the file <a class="reference external" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/EZ-Draw-1.2.tgz">EZ-Draw-1.2.tgz</a> with your web browser,
+save the file; using the Finder, unpack it as <tt class="docutils literal"><span class="pre">EZ-Draw-1.2.tar</span></tt>,
+next as folder <tt class="docutils literal"><span class="pre">EZ-Draw-1.2</span></tt>, then move this folder into your
+home directory.</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd><p class="first">if your Finder is not able to unpack, open a terminal and type this:</p>
+<pre class="last literal-block">
+tar xvfz Downloads/EZ-Draw-1.2.tgz
+</pre>
+</dd>
+</dl>
+<p>Next type in a terminal:</p>
+<pre class="literal-block">
+cd EZ-Draw-1.2
+make -j all
+</pre>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd><p class="first">If you get an error at compile time, for instance</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./ez-draw.h:36:10: fatal error: &#39;X11/Xlib.h&#39; file not found</span>
+</pre></div>
+</div>
+<p>this means that you must give some paths in the <a class="reference external" href="../../../Makefile">Makefile</a>.
+You can use the script <tt class="docutils literal"><span class="pre">x11-paths.sh</span></tt> that comes with EZ-Draw;
+this script explores the system directories and
+give you some informations. Simply type this in the terminal and wait:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./x11-paths.sh</span>
+</pre></div>
+</div>
+<p class="last">next, modify the <a class="reference external" href="../../../Makefile">Makefile</a> in section A according to the instructions
+displayed by the script.</p>
+</dd>
+</dl>
+<p>If everything is ok, after a few moments, the modules EZ-Draw, demos and games
+are compiled. To run <tt class="docutils literal"><span class="pre">demo-01</span></tt>, type in the terminal:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./demo-01</span>
+</pre></div>
+</div>
+<p>and so on for the other demos and games
+(for instance <tt class="docutils literal"><span class="pre">./jeu-bubblet</span></tt> or <tt class="docutils literal"><span class="pre">./jeu-doddle</span></tt>),
+or double-click the icons in the Finder.
+Next, read the <a class="reference external" href="ez-tutorial.html">tutorial</a>.</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>the first run, the program takes some time to launch because the
+system must first start an X11 server.
+On some versions of Mac OS X, it might be even necessary to
+open an <tt class="docutils literal"><span class="pre">xterm</span></tt> before.</dd>
+</dl>
+</div>
+<div class="section" id="other-unices">
+<h2>3.4. Other Unices<a class="headerlink" href="#other-unices" title="Permalink to this headline">¶</a></h2>
+<p>Download the file <a class="reference external" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/EZ-Draw-1.2.tgz">EZ-Draw-1.2.tgz</a> with your web browser,
+save the file, then move it into your home directory using the file manager.
+Next, type in the terminal:</p>
+<pre class="literal-block">
+gunzip EZ-Draw-1.2.tgz
+tar xvf EZ-Draw-1.2.tar
+cd EZ-Draw-1.2
+make all
+</pre>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd><p class="first">in case of errors at compile time, make sure you have on your system:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">bash</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">gcc</span></tt> and development files <tt class="docutils literal"><span class="pre">.h</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">make</span></tt> (GNU version)</li>
+<li><tt class="docutils literal"><span class="pre">X11</span></tt> development version:
+check for <tt class="docutils literal"><span class="pre">Xlib.h</span></tt> (probably in <tt class="docutils literal"><span class="pre">/usr/include/X11</span></tt>),
+for <tt class="docutils literal"><span class="pre">libX11.so</span></tt> (probably in <tt class="docutils literal"><span class="pre">/usr/X11R6/lib</span></tt> or <tt class="docutils literal"><span class="pre">/usr/lib</span></tt>),
+and for <tt class="docutils literal"><span class="pre">libXext.so</span></tt> (same place).</li>
+</ul>
+<p>To check all of this you can use the script <tt class="docutils literal"><span class="pre">x11-paths.sh</span></tt>
+that comes with EZ-Draw; this script explores the system directories and
+give you some informations. Simply type this in the terminal and wait:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span class="go">./x11-paths.sh</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>If everything is ok, after a few moments, the modules EZ-Draw, demos and games
+are compiled. To run <tt class="docutils literal"><span class="pre">demo-01</span></tt>, type in the terminal:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./demo-01</span>
+</pre></div>
+</div>
+<p>and so on for the other demos and games
+(for instance <tt class="docutils literal"><span class="pre">./jeu-bubblet</span></tt> or <tt class="docutils literal"><span class="pre">./jeu-doddle</span></tt>).
+Next, read the <a class="reference external" href="ez-tutorial.html">tutorial</a>.</p>
+</div>
+<div class="section" id="windows">
+<span id="sec-install-windows"></span><h2>3.5. Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
+<p>Download the file <a class="reference external" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/EZ-Draw-1.2.tgz">EZ-Draw-1.2.tgz</a> with your web browser and
+save the file.</p>
+<p>Next, uncompress the file, for example with the free software <tt class="docutils literal"><span class="pre">7-Zip</span></tt>:</p>
+<ol class="arabic simple">
+<li>get 7-Zip on <a class="reference external" href="http://www.7-zip.org">http://www.7-zip.org</a> then install it;</li>
+<li>in the file manager, right-click on
+<tt class="docutils literal"><span class="pre">EZ-Draw-1.2.tgz</span></tt>, menu <em class="menuselection">7-Zip ‣ Extract here</em>
+then again on <tt class="docutils literal"><span class="pre">EZ-Draw-1.2.tar</span></tt>.</li>
+<li>You can then leave this folder on the desktop, or drag it
+in &#8220;My Documents&#8221; for example.</li>
+</ol>
+<p>Install <tt class="docutils literal"><span class="pre">MinGW</span></tt> (&#8220;Minimal GNU for Windows&#8221;) to get <tt class="docutils literal"><span class="pre">gcc</span></tt> and GNU <tt class="docutils literal"><span class="pre">make</span></tt> :</p>
+<ol class="arabic simple">
+<li>go to: <a class="reference external" href="http://sourceforge.net/projects/tdm-gcc/">http://sourceforge.net/projects/tdm-gcc/</a> ;</li>
+<li>click on &#8220;Download tdm-gcc-xxx.ex&#8221;, wait, then click on
+&#8220;Save file&#8221;.</li>
+<li>Double-click on the file, then click on &#8220;Run&#8221;:
+the installation window appears.</li>
+<li>Click on &#8220;Create&#8221;, then &#8220;MinGW/TDM (32-bit)&#8221;, &#8220;Next&#8221;.</li>
+<li>Leave &#8220;Installation Directory&#8221; as <tt class="docutils literal"><span class="pre">c:\MinGW32</span></tt>, click on &#8220;Next&#8221;.</li>
+<li>Select a mirror, for example &#8220;[Europe - France] Free France&#8221;, then &#8220;Next&#8221;.</li>
+<li>Select the installation &#8220;TDM-GCC Recommended, C/C++&#8221;
+then click on &#8220;Install&#8221;.</li>
+<li>When the installation is &#8220;Completed successfully&#8221;, click &#8220;Next&#8221; then &#8220;Finish&#8221;.</li>
+<li>If a terminal was open, close it now.</li>
+</ol>
+<p>Open a new terminal:</p>
+<ul class="simple">
+<li>On Windows 8, bring up the sidebar to the right of the screen,
+click on &#8220;Search&#8221;, then &#8220;Command Prompt&#8221;;</li>
+<li>On Windows 7 or earlier versions, click on
+<em class="menuselection">Start ‣ All programs ‣ Accessories ‣ Command Prompt</em>.</li>
+</ul>
+<p>Still in your terminal, go into the directory <tt class="docutils literal"><span class="pre">EZ-Draw-1.2</span></tt> by
+typing :</p>
+<pre class="literal-block">
+cd c:\realpath\EZ-Draw-1.2
+</pre>
+<p>replacing <tt class="docutils literal"><span class="pre">c:\realpath\EZ-Draw-1.2</span></tt> by the actual path. To know,
+just drag the folder icon <tt class="docutils literal"><span class="pre">EZ-Draw-1.2</span></tt> in the terminal.</p>
+<p>Compile by typing:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">make.bat all</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd><p class="first">If the compilation fails and you get the error message
+&#8220;The specified path was not found&#8221;, you must change the <tt class="docutils literal"><span class="pre">PATH</span></tt>, by
+typing in the terminal:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span class="go">set PATH=c:\MinGW32\bin;%PATH%</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>After a few moments, modules EZ-Draw, demos and games are compiled.
+To run <tt class="docutils literal"><span class="pre">demo-01</span></tt>, type in the terminal:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">demo-01</span>
+</pre></div>
+</div>
+<p>and so on for the other demos and games
+(for instance <tt class="docutils literal"><span class="pre">jeu-bubblet</span></tt> or <tt class="docutils literal"><span class="pre">jeu-doddle</span></tt>).</p>
+<p>Next, read the <a class="reference external" href="ez-tutorial.html">tutorial</a>.
+To edit examples, install GVim for instance, see
+<a class="reference external" href="http://www.vim.org">http://www.vim.org</a> .</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>I did not test other compiler.
+If it is your case, thanks to share the informations with me so
+I can complete this document.</dd>
+</dl>
+</div>
+<div class="section" id="cygwin">
+<h2>3.6. Cygwin<a class="headerlink" href="#cygwin" title="Permalink to this headline">¶</a></h2>
+<p>You can install EZ-Draw in two ways:</p>
+<ol class="loweralpha simple">
+<li>By using the native Windows libraries. You just have to follow the
+instructions in section <a class="reference internal" href="#sec-install-windows"><em>Windows</em></a>.
+The key point is to not use the Cygwin terminal, but the Windows terminal
+(&#8220;Command Prompt&#8221; or <tt class="docutils literal"><span class="pre">cmd</span></tt>).</li>
+</ol>
+<ol class="loweralpha simple" start="2">
+<li>By using the Unix libraries of Cygwin. It is a little more complicated and
+longer; here are the steps to follow.</li>
+</ol>
+<p>If Cygwin is not already installed on your computer, this is time to do it.
+Go on <a class="reference external" href="http://cygwin.com/">http://cygwin.com/</a> then download the &#8220;setup&#8221; program <tt class="docutils literal"><span class="pre">setup-x86.exe</span></tt>
+(on Windows 32-bit) or <tt class="docutils literal"><span class="pre">setup-x86_64.exe</span></tt> (64-bit).
+Follow the instructions; you can keep all the default settings.
+The setup will download all the basic packages and install them
+(this may take hours depending on your connexion ... but once for all).</p>
+<p>We must now install some additional packages for EZ-Draw.
+Restart the Cygwin setup then, after the usual setup steps,
+select the following packages for installation:</p>
+<ul class="simple">
+<li><em class="menuselection">Devel ‣ gcc-core</em></li>
+<li><em class="menuselection">Devel ‣ make</em></li>
+<li><em class="menuselection">Editors ‣ nedit</em></li>
+<li><em class="menuselection">Libs ‣ libX11-devel</em></li>
+<li><em class="menuselection">X11 ‣ libXext-devel</em></li>
+<li><em class="menuselection">X11 ‣ xorg-server</em></li>
+<li><em class="menuselection">X11 ‣ xinit</em></li>
+<li><em class="menuselection">X11 ‣ xterm</em></li>
+<li><em class="menuselection">X11 ‣ font-sony-misc</em></li>
+</ul>
+<p>Open the Cygwin terminal (there is an icon on the desktop) then type</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">startxwin &amp;</span>
+</pre></div>
+</div>
+<p>This starts the X11 server (that is to say, the graphic mode of Unix)
+and open a new terminal &#8220;XWin&#8221;. All the next commands will have to be typed
+in this terminal.</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>if <tt class="docutils literal"><span class="pre">startxwin</span></tt> displays <tt class="docutils literal"><span class="pre">Another</span> <span class="pre">X</span> <span class="pre">server</span> <span class="pre">instance</span> <span class="pre">is</span> <span class="pre">running</span> <span class="pre">on</span>
+<span class="pre">display</span> <span class="pre">:0</span></tt>, type <tt class="docutils literal"><span class="pre">ps</span></tt>, get the number at the beginning of the line
+where stands <tt class="docutils literal"><span class="pre">/usr/bin/XWin</span></tt>,  then type <tt class="docutils literal"><span class="pre">kill</span> <span class="pre">&lt;pid&gt;</span></tt> by replacing
+<tt class="docutils literal"><span class="pre">&lt;pid&gt;</span></tt> by the number; you can finally type again <tt class="docutils literal"><span class="pre">startxwin</span> <span class="pre">&amp;</span></tt></dd>
+</dl>
+<p>Download the file <a class="reference external" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/EZ-Draw-1.2.tgz">EZ-Draw-1.2.tgz</a> with your web browser, save the file,
+then move it into your Cygwin home directory using the file manager.
+This directory is like to be <tt class="docutils literal"><span class="pre">c:\cygwin32\home\&lt;your-login&gt;</span></tt> or
+<tt class="docutils literal"><span class="pre">c:\cygwin64\home\&lt;your-login&gt;</span></tt>.</p>
+<p>Type <tt class="docutils literal"><span class="pre">ls</span></tt> in the XWin terminal to check if you actually have the
+file <tt class="docutils literal"><span class="pre">EZ-Draw-1.2.tgz</span></tt> in your Cygwin home directory.
+Type next:</p>
+<pre class="literal-block">
+tar xvfz EZ-Draw-1.2.tgz
+cd EZ-Draw-1.2
+</pre>
+<p>We can now compile EZ-Draw: type</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">make -j all</span>
+</pre></div>
+</div>
+<p>After a few moments, modules EZ-Draw, demos and games are compiled.
+To run <tt class="docutils literal"><span class="pre">demo-01</span></tt>, type in the terminal:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./demo-01</span>
+</pre></div>
+</div>
+<p>If you get the message <tt class="docutils literal"><span class="pre">ez_init:</span> <span class="pre">XOpenDisplay</span> <span class="pre">failed</span> <span class="pre">for</span> <span class="pre">&quot;&quot;</span></tt>, then you used
+the wrong terminal; remember, you must type the commands in the XWin terminal.</p>
+<p>Do the same to run the other demos and games
+(for instance <tt class="docutils literal"><span class="pre">./jeu-bubblet</span></tt> or <tt class="docutils literal"><span class="pre">./jeu-doddle</span></tt>).
+Next, read the <a class="reference external" href="ez-tutorial.html">tutorial</a>.</p>
+</div>
+<div class="section" id="tested-environments">
+<h2>3.7. Tested Environments<a class="headerlink" href="#tested-environments" title="Permalink to this headline">¶</a></h2>
+<p>Tested on:</p>
+<ul class="simple">
+<li>Linux Debian and Ubuntu on i86 (intel 32 bits)</li>
+<li>Linux Ubuntu on x86_64 (intel Xeon/AMD, 64 bits)</li>
+<li>Linux Raspbian on Raspberry Pi</li>
+<li>Linux Xandros on Eee-PC</li>
+<li>Linux Fedora 20 on x86_64 with Virtualbox</li>
+<li>MacOS X 10.9, 6, 5, 4 on Mac (intel 32 bits)</li>
+<li>Solaris on Sun</li>
+<li>Windows XP on PC and on VirtualBox</li>
+<li>Windows Vista 64 bits with MinGW 32 bits</li>
+<li>Windows 7 32 bits on PC and on VirtualBox</li>
+<li>Windows 8 32 bits on Virtualbox</li>
+<li>Windows 8.1 64 bits with MinGW 32/64, on PC and on Virtualbox</li>
+<li>Cygwin 64 bits 1.7.28 on Windows 8.1 64 bits with Virtualbox</li>
+</ul>
+</div>
+<div class="section" id="changes">
+<h2>3.8. Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h2>
+<p>1.2 : <em>october 2013, april 2014, april 2016, june 2016</em></p>
+<ul class="simple">
+<li>rewrite Windows timers</li>
+<li>rewrite documentation using <a class="reference external" href="http://sphinx-doc.org/index.html">Sphinx</a></li>
+<li>translate whole project in english</li>
+<li>rewrite games</li>
+<li>integration of Doodle game by Julien Prudhomme</li>
+<li>add game 2048</li>
+<li>add ez_window_get_id()</li>
+<li>add install for: fedora, cygwin</li>
+<li>suppress Makefile.win</li>
+<li>autodetect Cygwin in Makefile</li>
+<li>jeu-tetris.c</li>
+</ul>
+<p>1.1 : <em>april-june 2013</em></p>
+<ul class="simple">
+<li>ez-image.c : integration of Benoit Favre&#8217;s code and stb_image.c</li>
+<li>display images in windows using AlphaBlend() and -lmsimg32</li>
+<li>add ez_get_time, ez_HSV_to_RGB, ez_get_HSV</li>
+<li>update tutorial</li>
+<li>renumbering demos 0..8b -&gt; 1..10, rewriting</li>
+<li>new demos 11..17</li>
+<li>update snapshots</li>
+<li>remplace DEBUG by environment variables</li>
+<li>add pixmaps for display speed</li>
+<li>Window -&gt; Ez_window</li>
+</ul>
+<p>1.0 : <em>june-october 2011</em></p>
+<ul class="simple">
+<li>split demo8a/demo8b ; update tutorial</li>
+<li>improve jeu-sudoku, jeu-nim</li>
+<li>rewrite demo5, demo7</li>
+<li>ez_error, ez_error_handler</li>
+<li>ez_win_destroy, ez_win_destroy_all</li>
+<li>games : taquin, bubblet, ezen, heziom, tangram</li>
+<li>snapshots : web page, tutorial</li>
+</ul>
+<p>1.0-rc5 : <em>june 2010</em></p>
+<ul class="simple">
+<li>client-data : ez_set_data, ez_get_data</li>
+<li>jeu-sudoku.c : MVC pattern, space for resolution</li>
+<li>store windows informations with struct Ez_win_info</li>
+<li>windows list, delayed show</li>
+<li>ez_state : check order and unicity of calls ez_init, ez_main_loop</li>
+<li>meets -Wall -W -ansi -pedantic and -std=c99</li>
+</ul>
+<p>0.9 : <em>jully 2009</em></p>
+<ul class="simple">
+<li>index in xhtml 1.0 strict + css 2.1</li>
+</ul>
+<p>0.9 : <em>april - may 2009</em></p>
+<ul class="simple">
+<li>ez_random, ez_set_thick, ez_draw_triangle, ez_fill_triangle</li>
+<li>ez_window_show</li>
+<li>keys ctrl and alt on windows (to improve)</li>
+<li>update : demo2.c, demo3.c, demo6.c, tutorial</li>
+<li>jeu-vie.c</li>
+<li>Birth of EZ-Draw-GTK</li>
+</ul>
+<p>0.8 : <em>march - april 2009</em></p>
+<ul class="simple">
+<li>Manage timers, demo8.c</li>
+<li>Add a timer in jeu-nim.c</li>
+<li>3D maze with Z-buffer and animations (jeu-laby.c)</li>
+</ul>
+<p>0.7 : <em>march 2009</em></p>
+<ul class="simple">
+<li>Double display buffer for X11 and Windows</li>
+<li>On X11, compile everything with: -lX11 -lXext</li>
+<li>game of Nim (jeu-nim.c)</li>
+<li>Birth of EZ-Draw++ for C++, by Eric REMY</li>
+</ul>
+<p>0.6 : <em>june-jully 2009, correction in january 2009</em></p>
+<ul class="simple">
+<li>Adaptation to Windows</li>
+</ul>
+<p>0.2 .. 0.5 : <em>may 2008</em></p>
+<ul class="simple">
+<li>X11 only</li>
+</ul>
+<p>0.1 : <em>may 2008</em></p>
+<ul class="simple">
+<li>birth of the project for X11</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2>3.9. Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Regis Barbanchon : colors management;
+<a class="reference external" href="../../../jeu-ezen.c">jeu-ezen.c</a>,
+<a class="reference external" href="../../../jeu-heziom.c">jeu-heziom.c</a>.</li>
+<li>Eric Remy : terminating design, handling of error messages.</li>
+<li>Benoit Favre : display images and interface with
+<a class="reference external" href="http://www.nothings.org/stb_image.c">stb_image.c</a>.</li>
+<li>Julien Prudhomme :
+<a class="reference external" href="../../../jeu-doodle.c">jeu-doodle.c</a>,
+<a class="reference external" href="../../../jeu-tetris.c">jeu-tetris.c</a>.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="quicklinks">
+  <a href="../../../index-en.html">Back</a> |
+  <a href="#">Up</a> |
+  <a href="#endpage">Down</a>
+</p>
+<h3><a href="ez-manual.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ez-tutorial.html">1. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ez-reference.html">2. Reference manual</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">3. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ubuntu-or-debian">3.1. Ubuntu or Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fedora">3.2. Fedora</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mac-os-x">3.3. Mac OS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-unices">3.4. Other Unices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows">3.5. Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cygwin">3.6. Cygwin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tested-environments">3.7. Tested Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes">3.8. Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributors">3.9. Contributors</a></li>
+</ul>
+</li>
+</ul>
+<h3 class="indexlink">
+  <a href="genindex.html#">Index</a>
+</h3>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <span class="current">English</span></li>
+        <li class="right">
+          <a href="../../fr/html/ez-install.html">Français</a> |</li>
+        <li><a href="../../../index-en.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="ez-manual.html">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Edouard Thiel.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+    <a name="endpage"></a>
+  </body>
+</html>

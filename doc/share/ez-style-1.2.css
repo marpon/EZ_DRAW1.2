@@ -1,0 +1,147 @@
+/* Style pour la documentation de EZ-Draw - 04/03/2014 */
+
+
+/*-------- Général --------*/
+
+body {
+    max-width: 1250px;
+    margin: 0 auto;
+    /* border-left: solid 1px #EEE; */
+    /* border-right: solid 1px #EEE; */
+}
+
+/*-------- Texte --------*/
+
+tt, pre { font-size: 110%; }
+
+.centrer {
+    text-align: center;
+}
+
+pre {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.highlight-console pre, pre.literal-block {
+    background-color: #FFD;
+    border-color: #EE0;
+}
+
+.highlight-c pre, .highlight-makefile pre {
+    background-color: #EFE;
+    border-color: #8E8;
+}
+
+.highlight-c td.linenos {
+    padding-right: 0px;
+}
+
+.highlight-c td.code {
+    width: 100%;
+}
+
+.highlight-c td.code pre {
+    padding-left: 0.5em;
+}
+
+/*-------- Tables --------*/
+
+table.centrer { 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.encadrer {
+    border: 1px solid wheat;
+    border-collapse: separate;
+    padding: 3px 1px;
+}
+
+table.nonsouligner td {
+    border: 1px none;
+}
+
+/*-------- Barres en haut et en bas --------*/
+
+div.related {
+    position: relative;
+    z-index: 20;
+}
+
+div.related span.current {
+    border-bottom: 2px solid orange;
+}
+
+/*-------- Corps --------*/
+
+div.body {
+    padding-top: 8px;
+    border-left: 1px solid #555;
+}
+
+div.body li.toctree-l1 {
+    margin-bottom: 4px;
+}
+
+/*-------- Barre de côté --------*/
+
+div.sphinxsidebarwrapper {
+    padding-top: 6px;
+}
+
+div.sphinxsidebar {
+    top: 0px;
+    position: fixed;
+    z-index: 10;
+}
+
+div.sphinxsidebar p.quicklinks {
+    color: #555;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+div.sphinxsidebar li.toctree-l1 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+div.sphinxsidebar li.toctree-l1 a.current {
+    /* display: block;
+       border-right: 5px solid orange; */
+    /* border-left: 4px solid orange;
+       margin-left: -10px;
+       padding-left: 8px; */
+    border-bottom: 2px solid orange;
+}
+
+div.sphinxsidebar li.toctree-l1.current ul {
+    margin-top: 5px;
+}
+
+div.sphinxsidebar ul ul {
+    list-style: none outside none;
+    margin-left: 20px;
+    padding-left: 20px;
+    text-indent: -20px;
+}
+
+div.sphinxsidebar h3.indexlink {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#searchbox {
+    margin-top: 20px;
+}
+
+#searchbox input {
+    border-color: #555;
+}
+
+#searchbox .searchtip {
+    display: none;
+}
+
+

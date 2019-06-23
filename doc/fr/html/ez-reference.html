@@ -1,0 +1,1133 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Manuel de référence &mdash; Documentation de EZ-Draw 1.2</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../share/ez-style-1.2.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Documentation de EZ-Draw 1.2" href="index.html" />
+    <link rel="next" title="3. Installation" href="ez-install.html" />
+    <link rel="prev" title="1. Tutorial" href="ez-tutorial.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../en/html/ez-reference.html">English</a></li>
+        <li class="right">
+          <span class="current">Français</span> |</li>
+        <li><a href="../../../index.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="ez-manual.html">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="manuel-de-reference">
+<span id="chap-ref-manual"></span><h1>2. Manuel de référence<a class="headerlink" href="#manuel-de-reference" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Pour les sources, voir <a class="reference external" href="../../../ez-draw.h">ez-draw.h</a>, <a class="reference external" href="../../../ez-draw.c">ez-draw.c</a>.</p>
+<div class="section" id="boucle-principale">
+<span id="sec-ref-main-loop"></span><span id="index-0"></span><h2>2.1. Boucle principale<a class="headerlink" href="#boucle-principale" title="Lien permanent vers ce titre">¶</a></h2>
+<dl class="function">
+<dt id="c.ez_init">
+int <tt class="descname">ez_init</tt><big>(</big><big>)</big><a class="headerlink" href="#c.ez_init" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Initialisation générale.</p>
+<p>Renvoie 0 succès, -1 échec.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_main_loop">
+void <tt class="descname">ez_main_loop</tt><big>(</big><big>)</big><a class="headerlink" href="#c.ez_main_loop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Boucle principale.</p>
+</dd></dl>
+
+<p>Cette fonction affiche les fenêtres créées, puis attend les évènements et
+appelle au fur et à mesure la fonction d&#8217;évènements correspondante (la <em>callback</em>)
+de la fenêtre concernée.</p>
+<p>Pour interrompre la boucle principale, appeler <a class="reference internal" href="#c.ez_quit" title="ez_quit"><tt class="xref c c-func docutils literal"><span class="pre">ez_quit()</span></tt></a> dans une callback.
+Une fois revenu de <a class="reference internal" href="#c.ez_main_loop" title="ez_main_loop"><tt class="xref c c-func docutils literal"><span class="pre">ez_main_loop()</span></tt></a>, il ne faut plus faire aucun graphisme.</p>
+<dl class="function">
+<dt id="c.ez_quit">
+void <tt class="descname">ez_quit</tt><big>(</big><big>)</big><a class="headerlink" href="#c.ez_quit" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Fait sortir de <a class="reference internal" href="#c.ez_main_loop" title="ez_main_loop"><tt class="xref c c-func docutils literal"><span class="pre">ez_main_loop()</span></tt></a>.</p>
+</dd></dl>
+
+<span class="target" id="index-1"></span><dl class="function">
+<dt id="c.ez_auto_quit">
+void <tt class="descname">ez_auto_quit</tt><big>(</big>int<em>&nbsp;val</em><big>)</big><a class="headerlink" href="#c.ez_auto_quit" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Modifie l&#8217;effet du bouton &#8220;Fermer&#8221; de la barre de titre d&#8217;une fenêtre,
+pour toutes les fenêtres du programme.</p>
+</dd></dl>
+
+<p>Par défaut (cas où <tt class="docutils literal"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">1</span></tt>), si on clique sur le bouton &#8220;Fermer&#8221; de n&#8217;importe
+quelle fenêtre d&#8217;un programme, il se termine immédiatement.</p>
+<p>Vous pouvez changer ce comportement en invoquant <a class="reference internal" href="#c.ez_auto_quit" title="ez_auto_quit"><tt class="xref c c-func docutils literal"><span class="pre">ez_auto_quit()</span></tt></a> avec
+<tt class="docutils literal"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">0</span></tt> : si ensuite l&#8217;utilisateur clique sur le bouton &#8220;Fermer&#8221; d&#8217;une
+fenêtre,  le programme (au lieu de se terminer) recevra l&#8217;évènement
+<tt class="docutils literal"><span class="pre">WindowClose</span></tt> pour cette fenêtre ; libre alors à votre programme de décider
+ce qu&#8217;il veut faire :</p>
+<blockquote>
+<div><ul class="simple">
+<li>ignorer l&#8217;évènement ;</li>
+<li>détruire la fenêtre avec <a class="reference internal" href="#c.ez_window_destroy" title="ez_window_destroy"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_destroy()</span></tt></a> ;</li>
+<li>masquer la fenêtre avec <a class="reference internal" href="#c.ez_window_show" title="ez_window_show"><tt class="xref c c-func docutils literal"><span class="pre">ez_window_show()</span></tt></a> ;</li>
+<li>créer une fenêtre de dialogue ;</li>
+<li>terminer le programme avec <a class="reference internal" href="#c.ez_quit" title="ez_quit"><tt class="xref c c-func docutils literal"><span class="pre">ez_quit()</span></tt></a> ;</li>
+<li>etc.</li>
+</ul>
+</div></blockquote>
+<p>Remarque : lorsque toutes les fenêtres sont détruites, le programme s&#8217;arrête.</p>
+</div>
+<div class="section" id="fenetres">
+<span id="sec-ref-windows"></span><span id="index-2"></span><h2>2.2. Fenêtres<a class="headerlink" href="#fenetres" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Chaque fenêtre a un identifiant unique, de type <a class="reference internal" href="#c.Ez_window" title="Ez_window"><tt class="xref c c-type docutils literal"><span class="pre">Ez_window</span></tt></a> :</p>
+<dl class="type">
+<dt id="c.Ez_window">
+<tt class="descname">Ez_window</tt><a class="headerlink" href="#c.Ez_window" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Identifiant d&#8217;une fenêtre.</p>
+</dd></dl>
+
+<p>Les fonctions suivantes permettent de créer ou manipuler des fenêtres :</p>
+<span class="target" id="index-3"></span><dl class="function">
+<dt id="c.ez_window_create">
+<a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a> <tt class="descname">ez_window_create</tt><big>(</big>int<em>&nbsp;w</em>, int<em>&nbsp;h</em>, const char<em>&nbsp;*name</em>, <a class="reference internal" href="#c.Ez_func" title="Ez_func">Ez_func</a><em>&nbsp;on_event</em><big>)</big><a class="headerlink" href="#c.ez_window_create" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée et affiche une fenêtre, de largeur <tt class="docutils literal"><span class="pre">w</span></tt> et hauteur <tt class="docutils literal"><span class="pre">h</span></tt>,
+avec un titre <tt class="docutils literal"><span class="pre">name</span></tt>, et une fonction <tt class="docutils literal"><span class="pre">on_event</span></tt> (la <em>callback</em>)
+appelée pour chaque évènement (<tt class="docutils literal"><span class="pre">on_event</span></tt> peut être <tt class="docutils literal"><span class="pre">NULL</span></tt>).</p>
+<p>Renvoie l&#8217;identifiant de la fenêtre, de type <a class="reference internal" href="#c.Ez_window" title="Ez_window"><tt class="xref c c-type docutils literal"><span class="pre">Ez_window</span></tt></a>.</p>
+</dd></dl>
+
+<p>Toute callback est de type <a class="reference internal" href="#c.Ez_func" title="Ez_func"><tt class="xref c c-type docutils literal"><span class="pre">Ez_func</span></tt></a> :</p>
+<dl class="type">
+<dt id="c.Ez_func">
+<tt class="descname">Ez_func</tt><a class="headerlink" href="#c.Ez_func" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Le type des callbacks, c&#8217;est-à-dire le prototype des fonctions appelées
+pour chaque évènement. Ce type est défini ainsi :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Ez_func</span><span class="p">)(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Autrement dit, la fonction <tt class="docutils literal"><span class="pre">on_event</span></tt> passée en paramètre à
+<tt class="xref c c-func docutils literal"><span class="pre">ez_create_window()</span></tt> doit être de cette forme :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_window_get_id">
+int <tt class="descname">ez_window_get_id</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em><big>)</big><a class="headerlink" href="#c.ez_window_get_id" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Renvoie le numéro de la fenêtre comme un <tt class="docutils literal"><span class="pre">int</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_window_destroy">
+void <tt class="descname">ez_window_destroy</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em><big>)</big><a class="headerlink" href="#c.ez_window_destroy" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Détruit la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_window_show">
+void <tt class="descname">ez_window_show</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;val</em><big>)</big><a class="headerlink" href="#c.ez_window_show" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Rend visible (<tt class="docutils literal"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">1</span></tt>) ou cache (<tt class="docutils literal"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">0</span></tt>) la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_window_set_size">
+void <tt class="descname">ez_window_set_size</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;w</em>, int<em>&nbsp;h</em><big>)</big><a class="headerlink" href="#c.ez_window_set_size" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Change la taille de la fenêtre.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_window_get_size">
+void <tt class="descname">ez_window_get_size</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;*w</em>, int<em>&nbsp;*h</em><big>)</big><a class="headerlink" href="#c.ez_window_get_size" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Récupère la taille de la fenêtre.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_window_clear">
+void <tt class="descname">ez_window_clear</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em><big>)</big><a class="headerlink" href="#c.ez_window_clear" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Vide la fenêtre (avec un fond blanc) et réinitialise les paramètres de
+dessin (couleur, épaisseur, fonte) aux valeurs par défaut.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_send_expose">
+void <tt class="descname">ez_send_expose</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em><big>)</big><a class="headerlink" href="#c.ez_send_expose" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Envoie un évènement <tt class="docutils literal"><span class="pre">Expose</span></tt> a la fenêtre, pour la vider et la forcer à
+se redessiner.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="evenements">
+<span id="sec-ref-events"></span><span id="index-4"></span><h2>2.3. Évènements<a class="headerlink" href="#evenements" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Chaque évènement est décrit par un struct de type <a class="reference internal" href="#c.Ez_event" title="Ez_event"><tt class="xref c c-type docutils literal"><span class="pre">Ez_event</span></tt></a> :</p>
+<dl class="type">
+<dt id="c.Ez_event">
+<tt class="descname">Ez_event</tt><a class="headerlink" href="#c.Ez_event" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Mémorise un évènement.</p>
+</dd></dl>
+
+<p>Ce type est défini dans <a class="reference external" href="../../../ez-draw.h">ez-draw.h</a> de la façon suivante :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">type</span><span class="p">;</span>                       <span class="cm">/* Expose, ButtonPress, etc                */</span>
+    <span class="n">Ez_window</span> <span class="n">win</span><span class="p">;</span>                  <span class="cm">/* Identifiant de la fenêtre               */</span>
+    <span class="kt">int</span> <span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">;</span>                     <span class="cm">/* Coordonnées souris                      */</span>
+    <span class="kt">int</span> <span class="n">mb</span><span class="p">;</span>                         <span class="cm">/* Numéro bouton de la souris, 0 = aucun   */</span>
+    <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">;</span>              <span class="cm">/* Largeur et hauteur                      */</span>
+    <span class="n">KeySym</span> <span class="n">key_sym</span><span class="p">;</span>                 <span class="cm">/* Symbole touche : XK_Space, XK_q, etc    */</span>
+    <span class="kt">char</span>   <span class="n">key_name</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>            <span class="cm">/* Pour affichage : &quot;XK_Space&quot;, &quot;XK_q&quot;, .. */</span>
+    <span class="kt">char</span>   <span class="n">key_string</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>          <span class="cm">/* Chaine correspondante : &quot; &quot;, &quot;q&quot;, etc   */</span>
+    <span class="kt">int</span>    <span class="n">key_count</span><span class="p">;</span>               <span class="cm">/* Taille de la chaine                     */</span>
+    <span class="cm">/* Autres champs privés */</span>
+<span class="p">}</span> <span class="n">Ez_event</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Le premier champ permet de connaître le type de l&#8217;évènement. Les différentes
+valeurs possibles sont :</p>
+<table border="1" class="centrer nonsouligner encadrer docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Expose</span></tt></td>
+<td>Il faut redessiner toute la fenêtre.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">ButtonPress</span></tt></td>
+<td>Bouton souris enfoncé.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">ButtonRelease</span></tt></td>
+<td>Bouton souris relaché.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">MotionNotify</span></tt></td>
+<td>Souris déplacée.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">KeyPress</span></tt></td>
+<td>Touche clavier enfoncée.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">KeyRelease</span></tt></td>
+<td>Touche clavier relachée.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">ConfigureNotify</span></tt></td>
+<td>La fenêtre a changé de taille.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">WindowClose</span></tt></td>
+<td>Le bouton &#8220;fermer&#8221; a été pressé.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">TimerNotify</span></tt></td>
+<td>Le timer est arrivé à échéance.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="couleurs">
+<span id="sec-ref-colors"></span><span id="index-5"></span><h2>2.4. Couleurs<a class="headerlink" href="#couleurs" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Chaque couleur est désignée par un entier de type <tt class="docutils literal"><span class="pre">Ez_uint32</span></tt>.</p>
+<dl class="function">
+<dt id="c.ez_set_color">
+void <tt class="descname">ez_set_color</tt><big>(</big>Ez_uint32<em>&nbsp;color</em><big>)</big><a class="headerlink" href="#c.ez_set_color" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Mémorise la couleur <tt class="docutils literal"><span class="pre">color</span></tt> pour les prochains dessins, ainsi que pour
+l&#8217;affichage de texte.</p>
+</dd></dl>
+
+<p>Les couleurs suivantes sont prédéfinies :
+<tt class="docutils literal"><span class="pre">ez_black</span></tt>, <tt class="docutils literal"><span class="pre">ez_white</span></tt>, <tt class="docutils literal"><span class="pre">ez_grey</span></tt>, <tt class="docutils literal"><span class="pre">ez_red</span></tt>, <tt class="docutils literal"><span class="pre">ez_green</span></tt>, <tt class="docutils literal"><span class="pre">ez_blue</span></tt>,
+<tt class="docutils literal"><span class="pre">ez_yellow</span></tt>, <tt class="docutils literal"><span class="pre">ez_cyan</span></tt>, <tt class="docutils literal"><span class="pre">ez_magenta</span></tt>.</p>
+<p>On peut fabriquer d&#8217;autres couleurs avec les fonctions suivantes :</p>
+<dl class="function">
+<dt id="c.ez_get_RGB">
+Ez_uint32 <tt class="descname">ez_get_RGB</tt><big>(</big>Ez_uint8<em>&nbsp;r</em>, Ez_uint8<em>&nbsp;g</em>, Ez_uint8<em>&nbsp;b</em><big>)</big><a class="headerlink" href="#c.ez_get_RGB" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Renvoie une couleur calculée à partir des niveaux <tt class="docutils literal"><span class="pre">r,g,b</span></tt> donnés entre 0 et 255.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_get_grey">
+Ez_uint32 <tt class="descname">ez_get_grey</tt><big>(</big>Ez_uint8<em>&nbsp;g</em><big>)</big><a class="headerlink" href="#c.ez_get_grey" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Renvoie une couleur grise calculée à partir de son niveau <tt class="docutils literal"><span class="pre">g</span></tt> donné entre 0 et 255.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_get_HSV">
+Ez_uint32 <tt class="descname">ez_get_HSV</tt><big>(</big>double<em>&nbsp;h</em>, double<em>&nbsp;s</em>, double<em>&nbsp;v</em><big>)</big><a class="headerlink" href="#c.ez_get_HSV" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Renvoie une couleur calculée dans l&#8217;espace Hue, Saturation, Value.</p>
+</dd></dl>
+
+<p><tt class="docutils literal"><span class="pre">h</span></tt> est un angle entre 0 et 360 degrés qui représente arbitrairement
+les couleurs pures ; <tt class="docutils literal"><span class="pre">s</span></tt> est la saturation, entre 0 et 1 ; <tt class="docutils literal"><span class="pre">v</span></tt> est
+la valeur de luminosité, entre 0 et 1.
+Pour en savoir plus, consulter l&#8217;article
+<a class="reference external" href="http://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur">Teinte Saturation Valeur</a>
+dans Wikipedia.</p>
+<dl class="function">
+<dt id="c.ez_HSV_to_RGB">
+void <tt class="descname">ez_HSV_to_RGB</tt><big>(</big>double<em>&nbsp;h</em>, double<em>&nbsp;s</em>, double<em>&nbsp;v</em>, Ez_uint8<em>&nbsp;*r</em>, Ez_uint8<em>&nbsp;*g</em>, Ez_uint8<em>&nbsp;*b</em><big>)</big><a class="headerlink" href="#c.ez_HSV_to_RGB" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Convertit une couleur de l&#8217;espace HSV en RGB.</p>
+<p>Les intervalles sont :
+<tt class="docutils literal"><span class="pre">h</span></tt> entre 0 et 360,
+<tt class="docutils literal"><span class="pre">s</span></tt> et <tt class="docutils literal"><span class="pre">v</span></tt> entre 0 et 1,
+<tt class="docutils literal"><span class="pre">*r</span></tt>, <tt class="docutils literal"><span class="pre">*g</span></tt>, <tt class="docutils literal"><span class="pre">*b</span></tt> entre 0 et 255.</p>
+</dd></dl>
+
+<p>Comme exemples, voir <a class="reference external" href="../../../demo-11.c">demo-11.c</a> et <a class="reference external" href="../../../demo-12.c">demo-12.c</a>.</p>
+<p>On obtient ces fenêtres :</p>
+<div class="centrer container">
+<img alt="demo-11" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-11.png" />
+<img alt="demo-12" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-12.png" />
+</div>
+</div>
+<div class="section" id="dessins">
+<span id="sec-ref-drawings"></span><span id="index-6"></span><h2>2.5. Dessins<a class="headerlink" href="#dessins" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Les coordonnées sont relatives à l&#8217;origine, qui est le point en haut à gauche
+de l&#8217;intérieur de la fenêtre ; <tt class="docutils literal"><span class="pre">x</span></tt> va vers la droite et <tt class="docutils literal"><span class="pre">y</span></tt> va vers le bas.</p>
+<p>Pour les rectangles et les cercles, <tt class="docutils literal"><span class="pre">x1,y1</span></tt> et <tt class="docutils literal"><span class="pre">y2,y2</span></tt> sont les coordonnées
+en haut à gauche et en bas à droite de la boîte englobante.
+Pour les points, les segments de droite et les triangles, on passe les
+coordonnées des sommets.</p>
+<p>Par défaut, la couleur est le noir ; elle se change avec <a class="reference internal" href="#c.ez_set_color" title="ez_set_color"><tt class="xref c c-func docutils literal"><span class="pre">ez_set_color()</span></tt></a>.</p>
+<dl class="function">
+<dt id="c.ez_draw_point">
+void <tt class="descname">ez_draw_point</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em><big>)</big><a class="headerlink" href="#c.ez_draw_point" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un point.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_draw_line">
+void <tt class="descname">ez_draw_line</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, int<em>&nbsp;x2</em>, int<em>&nbsp;y2</em><big>)</big><a class="headerlink" href="#c.ez_draw_line" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un segment.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_draw_rectangle">
+void <tt class="descname">ez_draw_rectangle</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, int<em>&nbsp;x2</em>, int<em>&nbsp;y2</em><big>)</big><a class="headerlink" href="#c.ez_draw_rectangle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un rectangle.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_fill_rectangle">
+void <tt class="descname">ez_fill_rectangle</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, int<em>&nbsp;x2</em>, int<em>&nbsp;y2</em><big>)</big><a class="headerlink" href="#c.ez_fill_rectangle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un rectangle plein.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_draw_triangle">
+void <tt class="descname">ez_draw_triangle</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, int<em>&nbsp;x2</em>, int<em>&nbsp;y2</em>, int<em>&nbsp;x3</em>, int<em>&nbsp;y3</em><big>)</big><a class="headerlink" href="#c.ez_draw_triangle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un triangle.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_fill_triangle">
+void <tt class="descname">ez_fill_triangle</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, int<em>&nbsp;x2</em>, int<em>&nbsp;y2</em>, int<em>&nbsp;x3</em>, int<em>&nbsp;y3</em><big>)</big><a class="headerlink" href="#c.ez_fill_triangle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un triangle plein.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_draw_circle">
+void <tt class="descname">ez_draw_circle</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, int<em>&nbsp;x2</em>, int<em>&nbsp;y2</em><big>)</big><a class="headerlink" href="#c.ez_draw_circle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un cercle.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_fill_circle">
+void <tt class="descname">ez_fill_circle</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, int<em>&nbsp;x2</em>, int<em>&nbsp;y2</em><big>)</big><a class="headerlink" href="#c.ez_fill_circle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dessine un cercle plein.</p>
+</dd></dl>
+
+<p>Les dessins réalisés avec <a class="reference internal" href="#c.ez_draw_point" title="ez_draw_point"><tt class="xref c c-func docutils literal"><span class="pre">ez_draw_point()</span></tt></a>, <a class="reference internal" href="#c.ez_draw_line" title="ez_draw_line"><tt class="xref c c-func docutils literal"><span class="pre">ez_draw_line()</span></tt></a>,
+<a class="reference internal" href="#c.ez_draw_rectangle" title="ez_draw_rectangle"><tt class="xref c c-func docutils literal"><span class="pre">ez_draw_rectangle()</span></tt></a>, <a class="reference internal" href="#c.ez_draw_triangle" title="ez_draw_triangle"><tt class="xref c c-func docutils literal"><span class="pre">ez_draw_triangle()</span></tt></a>, <a class="reference internal" href="#c.ez_draw_circle" title="ez_draw_circle"><tt class="xref c c-func docutils literal"><span class="pre">ez_draw_circle()</span></tt></a>
+ont une épaisseur par défaut de 1 pixel. On peut modifier l&#8217;épaisseur avec :</p>
+<dl class="function">
+<dt id="c.ez_set_thick">
+void <tt class="descname">ez_set_thick</tt><big>(</big>int<em>&nbsp;thick</em><big>)</big><a class="headerlink" href="#c.ez_set_thick" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Mémorise l&#8217;épaisseur <tt class="docutils literal"><span class="pre">thick</span></tt> (en pixels) pour les prochains dessins.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="texte-et-fontes">
+<span id="sec-ref-fonts"></span><span id="index-7"></span><h2>2.6. Texte et fontes<a class="headerlink" href="#texte-et-fontes" title="Lien permanent vers ce titre">¶</a></h2>
+<dl class="function">
+<dt id="c.ez_font_load">
+int <tt class="descname">ez_font_load</tt><big>(</big>int<em>&nbsp;num</em>, const char<em>&nbsp;*name</em><big>)</big><a class="headerlink" href="#c.ez_font_load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Charge une fonte à partir de son nom (par exemple <tt class="docutils literal"><span class="pre">&quot;6x13&quot;</span></tt>) et la stocke
+pour le numéro <tt class="docutils literal"><span class="pre">num</span></tt>.</p>
+<p>Renvoie 0 succès, -1 erreur.</p>
+</dd></dl>
+
+<p>Le numéro de fonte doit être inférieur à <tt class="docutils literal"><span class="pre">EZ_FONT_MAX</span></tt>.
+Quelques fontes fixes sont préchargées par défaut :</p>
+<blockquote>
+<div><ul class="simple">
+<li>Fonte numéro 0 : <tt class="docutils literal"><span class="pre">&quot;6x13&quot;</span></tt></li>
+<li>Fonte numéro 1 : <tt class="docutils literal"><span class="pre">&quot;8x16&quot;</span></tt></li>
+<li>Fonte numéro 2 : <tt class="docutils literal"><span class="pre">&quot;10x20&quot;</span></tt></li>
+<li>Fonte numéro 3 : <tt class="docutils literal"><span class="pre">&quot;12x24&quot;</span></tt></li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Remarque :</dt>
+<dd>sous X11, le nom peut avoir une forme quelconque mais doit correspondre à une
+fonte existante. Sous Windows, le nom doit être sous la forme
+<em>largeur</em><tt class="docutils literal"><span class="pre">x</span></tt><em>hauteur</em> (une fonte approchante de taille fixe est obtenue).</dd>
+</dl>
+<dl class="function">
+<dt id="c.ez_set_nfont">
+void <tt class="descname">ez_set_nfont</tt><big>(</big>int<em>&nbsp;num</em><big>)</big><a class="headerlink" href="#c.ez_set_nfont" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Mémorise le numéro de fonte <tt class="docutils literal"><span class="pre">num</span></tt> pour les prochains affichages de texte.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_draw_text">
+void <tt class="descname">ez_draw_text</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, Ez_Align<em>&nbsp;align</em>, int<em>&nbsp;x1</em>, int<em>&nbsp;y1</em>, const char<em>&nbsp;*format</em>, ...<big>)</big><a class="headerlink" href="#c.ez_draw_text" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Affiche du texte ; s&#8217;utilise comme <tt class="docutils literal"><span class="pre">printf</span></tt>.</p>
+</dd></dl>
+
+<p>Exemple :</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">ez_draw_text</span> <span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">EZ_TL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&quot;Largeur = %d</span><span class="se">\n</span><span class="s">Hauteur = %d&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Les coordonnées <tt class="docutils literal"><span class="pre">x1,y1</span></tt> sont données par rapport à <tt class="docutils literal"><span class="pre">align</span></tt>,
+qui prend pour valeurs :</p>
+<table border="1" class="centrer nonsouligner encadrer docutils">
+<colgroup>
+<col width="32%" />
+<col width="35%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">EZ_TL</span></tt> (Top Left)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_TC</span></tt> (Top Center)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_TR</span></tt> (Top Right)</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">EZ_ML</span></tt> (Middle Left)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_MC</span></tt> (Middle Center)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_MR</span></tt> (Middle Right)</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">EZ_BL</span></tt> (Bottom Left)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_BC</span></tt> (Bottom Center)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_BR</span></tt> (Bottom Right)</td>
+</tr>
+</tbody>
+</table>
+<p>Le texte est tracé par dessus le dessin actuel ; on peut aussi faire effacer
+le fond en même temps (avec du blanc) en utilisant pour <tt class="docutils literal"><span class="pre">align</span></tt> les
+constantes :</p>
+<table border="1" class="centrer nonsouligner encadrer docutils">
+<colgroup>
+<col width="32%" />
+<col width="34%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">EZ_TLF</span></tt> (Top Left Filled)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_TCF</span></tt> (Top Center Filled)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_TRF</span></tt> (Top Right Filled)</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">EZ_MLF</span></tt> (Middle Left Filled)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_MCF</span></tt> (Middle Center Filled)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_MRF</span></tt> (Middle Right Filled)</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">EZ_BLF</span></tt> (Bottom Left Filled)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_BCF</span></tt> (Bottom Center Filled)</td>
+<td><tt class="docutils literal"><span class="pre">EZ_BRF</span></tt> (Bottom Right Filled)</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Par défaut :</dt>
+<dd><ul class="first last simple">
+<li>le texte est affiché avec la fonte numero 0 (<tt class="docutils literal"><span class="pre">6x13</span></tt>) ;
+se change avec <a class="reference internal" href="#c.ez_set_nfont" title="ez_set_nfont"><tt class="xref c c-func docutils literal"><span class="pre">ez_set_nfont()</span></tt></a>.</li>
+<li>le texte est affiché en noir ; se change avec <a class="reference internal" href="#c.ez_set_color" title="ez_set_color"><tt class="xref c c-func docutils literal"><span class="pre">ez_set_color()</span></tt></a>.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="double-buffer-d-affichage">
+<span id="sec-ref-dbuf"></span><span id="index-8"></span><h2>2.7. Double-buffer d&#8217;affichage<a class="headerlink" href="#double-buffer-d-affichage" title="Lien permanent vers ce titre">¶</a></h2>
+<p>L&#8217;affichage avec double-buffer permet d&#8217;éviter que la fenêtre ne clignote
+pendant qu&#8217;elle est rafraichie. Le principe est de dessiner dans le double-buffer,
+puis d&#8217;échanger celui-ci avec le contenu de la fenêtre quand tous les dessins sont
+finis. Tout est automatiquement géré par EZ-Draw.</p>
+<dl class="function">
+<dt id="c.ez_window_dbuf">
+void <tt class="descname">ez_window_dbuf</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;val</em><big>)</big><a class="headerlink" href="#c.ez_window_dbuf" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Active ou inactive l&#8217;affichage double-buffer pour le window <tt class="docutils literal"><span class="pre">win</span></tt>.</p>
+</dd></dl>
+
+<p>Par défaut, l&#8217;affichage double-buffer est désactivé (<tt class="docutils literal"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">0</span></tt>).</p>
+<p>Si l&#8217;affichage double-buffer est activé (<tt class="docutils literal"><span class="pre">val</span> <span class="pre">=</span> <span class="pre">1</span></tt>) pour un window,
+les dessins dans ce window doivent obligatoirement être faits uniquement
+lors des évènements <tt class="docutils literal"><span class="pre">Expose</span></tt> de ce window.
+Si le double-buffer est inactivé, ce n&#8217;est plus une obligation, mais cela
+reste fortement conseillé.</p>
+<p>Comme exemple, voir dans <a class="reference external" href="../../../jeu-nim.c">jeu-nim.c</a> les fonctions
+<tt class="docutils literal"><span class="pre">gui_init()</span></tt>, <tt class="docutils literal"><span class="pre">win1_onKeyPress()</span></tt>, <tt class="docutils literal"><span class="pre">win1_onExpose()</span></tt>.</p>
+<p>Dans ce jeu, on peut tester l&#8217;affichage avec et sans le double-buffer
+(presser la touche  <tt class="docutils literal"><span class="pre">d</span></tt> pour basculer entre l&#8217;un et l&#8217;autre) :</p>
+<div class="centrer container">
+<img alt="jeu-nim-2" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-jeu-nim-2.png" />
+</div>
+</div>
+<div class="section" id="timers">
+<span id="sec-ref-timers"></span><span id="index-9"></span><h2>2.8. Timers<a class="headerlink" href="#timers" title="Lien permanent vers ce titre">¶</a></h2>
+<p><em>Armer un timer</em> signifie mémoriser une date dans le futur, qui est la date
+actuelle plus un certain délai. Lorsqu&#8217;on arrive à cette date future, on dit que
+le timer est <em>arrivé à échéance</em>.</p>
+<p>Chaque fenêtre peut être associée à un timer.
+À l&#8217;échéance du timer, l&#8217;application reçoit un évènement unique
+<tt class="docutils literal"><span class="pre">TimerNotify</span></tt> pour le window concerné, puis le timer est supprimé.</p>
+<dl class="function">
+<dt id="c.ez_start_timer">
+void <tt class="descname">ez_start_timer</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, int<em>&nbsp;delay</em><big>)</big><a class="headerlink" href="#c.ez_start_timer" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Arme un timer pour le window <tt class="docutils literal"><span class="pre">win</span></tt> avec un délai <tt class="docutils literal"><span class="pre">delay</span></tt> en millisecondes.</p>
+</dd></dl>
+
+<p>Tout rappel de cette fonction avant l&#8217;échéance du timer annule et remplace le timer.
+Si de plus <tt class="docutils literal"><span class="pre">delay</span></tt> vaut <tt class="docutils literal"><span class="pre">-1</span></tt>, alors le timer est supprimé
+(remarque : ce n&#8217;est pas une erreur de supprimer un timer déjà supprimé ou inexistant).</p>
+<p>Comme exemple, voir <a class="reference external" href="../../../demo-09.c">demo-09.c</a>.</p>
+</div>
+<div class="section" id="client-data">
+<span id="sec-ref-client-data"></span><span id="index-10"></span><h2>2.9. Client-data<a class="headerlink" href="#client-data" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Chaque fenêtre peut mémoriser une donnée arbitraire du programme,
+par exemple une chaîne de caractères ou l&#8217;adresse d&#8217;un <tt class="docutils literal"><span class="pre">struct</span></tt>.
+On peut ensuite récupérer cette donnée à tout moment dans le programme.
+Ce mécanisme permet ainsi d&#8217;éviter l&#8217;emploi de variables globales.</p>
+<dl class="function">
+<dt id="c.ez_set_data">
+void <tt class="descname">ez_set_data</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, void<em>&nbsp;*data</em><big>)</big><a class="headerlink" href="#c.ez_set_data" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Mémorise la donnée <tt class="docutils literal"><span class="pre">data</span></tt> dans la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_get_data">
+void *<tt class="descname">ez_get_data</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em><big>)</big><a class="headerlink" href="#c.ez_get_data" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Renvoie la donnée associée à la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt>.</p>
+</dd></dl>
+
+<p>Voici un exemple de programme qui affiche un cercle, dont les coordonnées
+sont placées dans une variable globale <tt class="docutils literal"><span class="pre">md</span></tt> :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Mes_donnees</span><span class="p">;</span>
+
+<span class="n">Mes_donnees</span> <span class="n">md</span><span class="p">;</span>  <span class="cm">/* 1. Variable globale */</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* 3. Utilisation */</span>
+    <span class="n">ez_draw_circle</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">md</span><span class="p">.</span><span class="n">x</span><span class="o">-</span><span class="n">md</span><span class="p">.</span><span class="n">r</span><span class="p">,</span> <span class="n">md</span><span class="p">.</span><span class="n">y</span><span class="o">-</span><span class="n">md</span><span class="p">.</span><span class="n">r</span><span class="p">,</span> <span class="n">md</span><span class="p">.</span><span class="n">x</span><span class="o">+</span><span class="n">md</span><span class="p">.</span><span class="n">r</span><span class="p">,</span> <span class="n">md</span><span class="p">.</span><span class="n">y</span><span class="o">+</span><span class="n">md</span><span class="p">.</span><span class="n">r</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span> : <span class="n">win1_on_expose</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="cm">/* 2. Initialisation */</span>
+    <span class="n">md</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span> <span class="n">md</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="n">md</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+
+    <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo client-data 1&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Voici maintenant le même programme sans variable globale,
+en mémorisant la donnée dans la fenêtre :</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &quot;ez-draw.h&quot;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Mes_donnees</span><span class="p">;</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_expose</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* 4. On retrouve les données attachées à la fenêtre */</span>
+    <span class="n">Mes_donnees</span> <span class="o">*</span><span class="n">md</span> <span class="o">=</span> <span class="n">ez_get_data</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">);</span>
+
+    <span class="cm">/* 5. Utilisation */</span>
+    <span class="n">ez_draw_circle</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">win</span><span class="p">,</span> <span class="n">md</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">-</span><span class="n">md</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">,</span> <span class="n">md</span><span class="o">-&gt;</span><span class="n">y</span><span class="o">-</span><span class="n">md</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">,</span> <span class="n">md</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">+</span><span class="n">md</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">,</span> <span class="n">md</span><span class="o">-&gt;</span><span class="n">y</span><span class="o">+</span><span class="n">md</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">win1_on_event</span> <span class="p">(</span><span class="n">Ez_event</span> <span class="o">*</span><span class="n">ev</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">switch</span> <span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Expose</span> : <span class="n">win1_on_expose</span> <span class="p">(</span><span class="n">ev</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Ez_window</span> <span class="n">win1</span><span class="p">;</span>
+    <span class="n">Mes_donnees</span> <span class="n">md</span><span class="p">;</span>  <span class="cm">/* 1. Variable locale à main() */</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ez_init</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="cm">/* 2. Initialisation */</span>
+    <span class="n">md</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span> <span class="n">md</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="n">md</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+
+    <span class="n">win1</span> <span class="o">=</span> <span class="n">ez_window_create</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&quot;Demo client-data 2&quot;</span><span class="p">,</span> <span class="n">win1_on_event</span><span class="p">);</span>
+
+    <span class="cm">/* 3. On mémorise la donnée dans la fenêtre */</span>
+    <span class="n">ez_set_data</span> <span class="p">(</span><span class="n">win1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">md</span><span class="p">);</span>
+
+    <span class="n">ez_main_loop</span> <span class="p">();</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Comme autre exemple, voir <a class="reference external" href="../../../demo-10.c">demo-10.c</a>.</p>
+</div>
+<div class="section" id="le-type-image">
+<span id="sec-ref-images-type"></span><span id="index-11"></span><h2>2.10. Le type image<a class="headerlink" href="#le-type-image" title="Lien permanent vers ce titre">¶</a></h2>
+<p>EZ-Draw permet d&#8217;afficher ou de manipuler des images avec le type suivant :</p>
+<dl class="type">
+<dt id="c.Ez_image">
+<tt class="descname">Ez_image</tt><a class="headerlink" href="#c.Ez_image" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Type <tt class="docutils literal"><span class="pre">struct</span></tt> principal pour mémoriser une image.</p>
+</dd></dl>
+
+<p>Ce type est défini dans <a class="reference external" href="../../../ez-image.h">ez-image.h</a> de la façon
+suivante :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">;</span>
+    <span class="n">Ez_uint8</span> <span class="o">*</span><span class="n">pixels_rgba</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">has_alpha</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">opacity</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Ez_image</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>La largeur de l&#8217;image en pixels est <tt class="docutils literal"><span class="pre">width</span></tt> et sa hauteur est <tt class="docutils literal"><span class="pre">height</span></tt>.</p>
+<p>Les pixels sont mémorisés dans le tableau <tt class="docutils literal"><span class="pre">pixels_rgba</span></tt>
+sous la forme R,G,B,A (pour rouge, vert, bleu, alpha, c&#8217;est-à-dire transparence)
+avec une valeur entre 0 et 255
+(255 est l&#8217;intensité ou l&#8217;opacité maximale).</p>
+<p>Les valeurs R,G,B,A d&#8217;un pixel de coordonnées <tt class="docutils literal"><span class="pre">x,y</span></tt> dans l&#8217;image sont
+mémorisées dans <tt class="docutils literal"><span class="pre">pixels_rgba[(y*width+x)*4</span> <span class="pre">+</span> <span class="pre">0..3]</span></tt>.</p>
+<p>Le champ <tt class="docutils literal"><span class="pre">has_alpha</span></tt> indique si le canal alpha est utilisé (<tt class="docutils literal"><span class="pre">has_alpha</span> <span class="pre">=</span> <span class="pre">1</span></tt>)
+ou ignoré (<tt class="docutils literal"><span class="pre">has_alpha</span> <span class="pre">=</span> <span class="pre">0</span></tt>) lors de l&#8217;affichage.
+Si le canal est ignoré, tous les pixels seront affichés ;
+s&#8217;il est utilisé, seuls les pixels opaques seront affichés.</p>
+<p>Les pixels opaques sont les pixels dont le canal alpha est supérieur ou égal
+au seuil d&#8217;opacité, stipulé par le champ <tt class="docutils literal"><span class="pre">opacity</span></tt> ;
+par défaut le seuil d&#8217;opacité est 128.</p>
+<dl class="docutils">
+<dt><strong>Attention :</strong></dt>
+<dd>ne modifiez pas les champs <tt class="docutils literal"><span class="pre">width</span></tt>, <tt class="docutils literal"><span class="pre">height</span></tt>, <tt class="docutils literal"><span class="pre">pixels_rgba</span></tt> d&#8217;une image,
+car ils décrivent la mémoire qui a été allouée.
+En revanche, vous pouvez modifier les champs <tt class="docutils literal"><span class="pre">has_alpha</span></tt>, <tt class="docutils literal"><span class="pre">opacity</span></tt>,
+ainsi que la  valeur des pixels dans <tt class="docutils literal"><span class="pre">pixels_rgba[]</span></tt>.
+On peut aussi utiliser les fonctions suivantes.</dd>
+</dl>
+<dl class="function">
+<dt id="c.ez_image_set_alpha">
+void <tt class="descname">ez_image_set_alpha</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, int<em>&nbsp;has_alpha</em><big>)</big><a class="headerlink" href="#c.ez_image_set_alpha" title="Lien permanent vers cette définition">¶</a></dt>
+<dt id="c.ez_image_has_alpha">
+int  <tt class="descname">ez_image_has_alpha</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em><big>)</big><a class="headerlink" href="#c.ez_image_has_alpha" title="Lien permanent vers cette définition">¶</a></dt>
+<dt id="c.ez_image_set_opacity">
+void <tt class="descname">ez_image_set_opacity</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, int<em>&nbsp;opacity</em><big>)</big><a class="headerlink" href="#c.ez_image_set_opacity" title="Lien permanent vers cette définition">¶</a></dt>
+<dt id="c.ez_image_get_opacity">
+int  <tt class="descname">ez_image_get_opacity</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em><big>)</big><a class="headerlink" href="#c.ez_image_get_opacity" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Récupére ou modifie les champs <tt class="docutils literal"><span class="pre">has_alpha</span></tt> et <tt class="docutils literal"><span class="pre">opacity</span></tt>.</p>
+<p>Ces fonctions ne font rien si l&#8217;image <tt class="docutils literal"><span class="pre">img</span></tt> est <tt class="docutils literal"><span class="pre">NULL</span></tt>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="gestion-des-images">
+<span id="sec-ref-managing-images"></span><span id="index-12"></span><h2>2.11. Gestion des images<a class="headerlink" href="#gestion-des-images" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Pour utiliser les fonctions suivantes il faut inclure
+<a class="reference external" href="../../../ez-image.h">ez-image.h</a>.</p>
+<dl class="function">
+<dt id="c.ez_image_create">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_create</tt><big>(</big>int<em>&nbsp;w</em>, int<em>&nbsp;h</em><big>)</big><a class="headerlink" href="#c.ez_image_create" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée une image de largeur <tt class="docutils literal"><span class="pre">w</span></tt> et hauteur <tt class="docutils literal"><span class="pre">h</span></tt> en pixels.</p>
+<p>Renvoie l&#8217;image créée, ou <tt class="docutils literal"><span class="pre">NULL</span></tt> si erreur.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_load">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_load</tt><big>(</big>const char<em>&nbsp;*filename</em><big>)</big><a class="headerlink" href="#c.ez_image_load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Charge une image depuis le fichier <tt class="docutils literal"><span class="pre">filename</span></tt>.
+Le fichier doit être au format PNG, JPEG, GIF ou BMP.</p>
+<p>La transparence est gérée pour les formats PNG, GIF et BMP :
+si le fichier contient un canal alpha, le champ <tt class="docutils literal"><span class="pre">has_alpha</span></tt> de
+l&#8217;image est mis à 1.</p>
+<p>Renvoie l&#8217;image créée, ou <tt class="docutils literal"><span class="pre">NULL</span></tt> si erreur.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_dup">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_dup</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em><big>)</big><a class="headerlink" href="#c.ez_image_dup" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée une copie profonde de l&#8217;image <tt class="docutils literal"><span class="pre">img</span></tt>.</p>
+<p>Renvoie l&#8217;image créée, ou <tt class="docutils literal"><span class="pre">NULL</span></tt> si erreur.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_destroy">
+void <tt class="descname">ez_image_destroy</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em><big>)</big><a class="headerlink" href="#c.ez_image_destroy" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Détruit une image en mémoire.</p>
+<p>Toutes les images créées par les fonctions <tt class="docutils literal"><span class="pre">ez_image_...</span></tt>
+doivent être libérées avec cette fonction.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_paint">
+void <tt class="descname">ez_image_paint</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, <a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, int<em>&nbsp;x</em>, int<em>&nbsp;y</em><big>)</big><a class="headerlink" href="#c.ez_image_paint" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Affiche une image dans la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt>, avec le coin supérieur gauche de
+l&#8217;image aux coordonnées <tt class="docutils literal"><span class="pre">x,y</span></tt> dans la fenêtre.
+Si <tt class="docutils literal"><span class="pre">img-&gt;has_alpha</span></tt> est vrai, applique la transparence, c&#8217;est-à-dire
+n&#8217;affiche que les pixels opaques.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_paint_sub">
+void <tt class="descname">ez_image_paint_sub</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, <a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, int<em>&nbsp;x</em>, int<em>&nbsp;y</em>, int<em>&nbsp;src_x</em>, int<em>&nbsp;src_y</em>, int<em>&nbsp;w</em>, int<em>&nbsp;h</em><big>)</big><a class="headerlink" href="#c.ez_image_paint_sub" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Affiche une région rectangulaire d&#8217;une image dans la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt>.</p>
+<p>La région de l&#8217;image est délimitée par les coordonnées <tt class="docutils literal"><span class="pre">src_x,</span> <span class="pre">src_y</span></tt>
+(coin supérieur gauche) et <tt class="docutils literal"><span class="pre">src_x+w-1,</span> <span class="pre">src_y+h-1</span></tt> (coin inférieur droit)
+dans l&#8217;image. Si les coordonnées dépassent l&#8217;image, seule la région appartenant
+effectivement à l&#8217;image est affichée.</p>
+<p>Le coin supérieur gauche de la région est affiché aux coordonnées
+<tt class="docutils literal"><span class="pre">x,y</span></tt> dans la fenêtre.
+Si <tt class="docutils literal"><span class="pre">img-&gt;has_alpha</span></tt> est vrai, applique la transparence.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_print">
+void <tt class="descname">ez_image_print</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, int<em>&nbsp;src_x</em>, int<em>&nbsp;src_y</em>, int<em>&nbsp;w</em>, int<em>&nbsp;h</em><big>)</big><a class="headerlink" href="#c.ez_image_print" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Affiche une région rectangulaire d&#8217;une image dans le terminal.</p>
+<p>La région de l&#8217;image <tt class="docutils literal"><span class="pre">img</span></tt> est délimitée par les coordonnées <tt class="docutils literal"><span class="pre">src_x,</span> <span class="pre">src_y</span></tt>
+(coin supérieur gauche) et <tt class="docutils literal"><span class="pre">src_x+w-1,</span> <span class="pre">src_y+h-1</span></tt> (coin inférieur droit)
+dans <tt class="docutils literal"><span class="pre">img</span></tt>. Si les coordonnées dépassent l&#8217;image, seule la région appartenant
+effectivement à l&#8217;image est affichée.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="operations-sur-les-images">
+<span id="sec-ref-oper-on-images"></span><span id="index-13"></span><h2>2.12. Opérations sur les images<a class="headerlink" href="#operations-sur-les-images" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette section présente quelques opérations disponibles en incluant
+<a class="reference external" href="../../../ez-image.h">ez-image.h</a>.
+Ces opérations sont faites sur les couleurs et sur le canal alpha.</p>
+<dl class="function">
+<dt id="c.ez_image_fill_rgba">
+void <tt class="descname">ez_image_fill_rgba</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, Ez_uint8<em>&nbsp;r</em>, Ez_uint8<em>&nbsp;g</em>, Ez_uint8<em>&nbsp;b</em>, Ez_uint8<em>&nbsp;a</em><big>)</big><a class="headerlink" href="#c.ez_image_fill_rgba" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Remplit une image avec une couleur <tt class="docutils literal"><span class="pre">r,g,b,a</span></tt>.</p>
+<p>Les valeurs sont entre 0 et 255.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_blend">
+void <tt class="descname">ez_image_blend</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*dst</em>, <a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*src</em>, int<em>&nbsp;dst_x</em>, int<em>&nbsp;dst_y</em><big>)</big><a class="headerlink" href="#c.ez_image_blend" title="Lien permanent vers cette définition">¶</a></dt>
+<dt id="c.ez_image_blend_sub">
+void <tt class="descname">ez_image_blend_sub</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*dst</em>, <a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*src</em>, int<em>&nbsp;dst_x</em>, int<em>&nbsp;dst_y</em>, int<em>&nbsp;src_x</em>, int<em>&nbsp;src_y</em>, int<em>&nbsp;w</em>, int<em>&nbsp;h</em><big>)</big><a class="headerlink" href="#c.ez_image_blend_sub" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Incruste une région de l&#8217;image <tt class="docutils literal"><span class="pre">src</span></tt> dans l&#8217;image <tt class="docutils literal"><span class="pre">dst</span></tt>.</p>
+<p>La région de l&#8217;image source <tt class="docutils literal"><span class="pre">src</span></tt> est délimitée par les coordonnées
+<tt class="docutils literal"><span class="pre">src_x,</span> <span class="pre">src_y</span></tt> (coin supérieur gauche) et <tt class="docutils literal"><span class="pre">src_x+w-1,</span> <span class="pre">src_y+h-1</span></tt>
+(coin inférieur droit).
+Cette région est incrustée dans l&#8217;image destination <tt class="docutils literal"><span class="pre">dst</span></tt>
+aux coordonnées <tt class="docutils literal"><span class="pre">dst_x,</span> <span class="pre">dst_y</span></tt> (coin supérieur gauche) et
+<tt class="docutils literal"><span class="pre">dst_x+w-1,</span> <span class="pre">dst_y+h-1</span></tt> (coin inférieur droit).</p>
+<p>Si les coordonnées dépassent les images <tt class="docutils literal"><span class="pre">src</span></tt> ou <tt class="docutils literal"><span class="pre">dst</span></tt>,
+seule la région commune est incrustée.
+Si l&#8217;image source n&#8217;a pas de canal alpha (c&#8217;est-à-dire si <tt class="docutils literal"><span class="pre">src-&gt;has_alpha</span></tt>
+est faux), alors les valeurs de la région de <tt class="docutils literal"><span class="pre">src</span></tt> écrasent
+celle de <tt class="docutils literal"><span class="pre">dst</span></tt>.
+Dans le cas contraîre, les régions sont mélangées par transparence
+(<em>alpha blending</em>) avec les formules de
+<a class="reference external" href="http://fr.wikipedia.org/wiki/Alpha_blending">Porter et Duff</a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_extract">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_extract</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, int<em>&nbsp;src_x</em>, int<em>&nbsp;src_y</em>, int<em>&nbsp;w</em>, int<em>&nbsp;h</em><big>)</big><a class="headerlink" href="#c.ez_image_extract" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée une image contenant une copie d&#8217;une région rectangulaire de l&#8217;image
+source <tt class="docutils literal"><span class="pre">img</span></tt>.</p>
+<p>La région de l&#8217;image est délimitée par les coordonnées <tt class="docutils literal"><span class="pre">src_x,</span> <span class="pre">src_y</span></tt>
+(coin supérieur gauche) et <tt class="docutils literal"><span class="pre">src_x+w-1,</span> <span class="pre">src_y+h-1</span></tt> (coin inférieur droit)
+dans <tt class="docutils literal"><span class="pre">img</span></tt>. Si les coordonnées dépassent l&#8217;image, seule la région appartenant
+effectivement à l&#8217;image est extraite.</p>
+<p>Renvoie <tt class="docutils literal"><span class="pre">NULL</span></tt> en cas d&#8217;erreur mémoire ou si l&#8217;intersection est vide.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_sym_ver">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_sym_ver</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em><big>)</big><a class="headerlink" href="#c.ez_image_sym_ver" title="Lien permanent vers cette définition">¶</a></dt>
+<dt id="c.ez_image_sym_hor">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_sym_hor</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em><big>)</big><a class="headerlink" href="#c.ez_image_sym_hor" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée une image de même taille et propriétés que l&#8217;image source <tt class="docutils literal"><span class="pre">img</span></tt>,
+contenant le symétrique de l&#8217;image par rapport à l&#8217;axe vertical ou horizontal.</p>
+<p>Renvoie la nouvelle image, ou <tt class="docutils literal"><span class="pre">NULL</span></tt> si erreur.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_scale">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_scale</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, double<em>&nbsp;factor</em><big>)</big><a class="headerlink" href="#c.ez_image_scale" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée une image de taille multipliée par <tt class="docutils literal"><span class="pre">factor</span></tt> pour
+l&#8217;image source <tt class="docutils literal"><span class="pre">img</span></tt>, contenant l&#8217;image mise à l&#8217;échelle.
+Le facteur d&#8217;échelle <tt class="docutils literal"><span class="pre">factor</span></tt> doit être strictement positif.</p>
+<p>Renvoie la nouvelle image, ou <tt class="docutils literal"><span class="pre">NULL</span></tt> si erreur.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_image_rotate">
+<a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a> *<tt class="descname">ez_image_rotate</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, double<em>&nbsp;theta</em>, int<em>&nbsp;quality</em><big>)</big><a class="headerlink" href="#c.ez_image_rotate" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Effectue une rotation de l&#8217;image source <tt class="docutils literal"><span class="pre">img</span></tt> d&#8217;angle <tt class="docutils literal"><span class="pre">theta</span></tt> en degrés.
+Renvoie une nouvelle image dont la taille est ajustée pour contenir le
+résultat, ou <tt class="docutils literal"><span class="pre">NULL</span></tt> en cas d&#8217;erreur.</p>
+<p>Dans l&#8217;image résultat, le champs <tt class="docutils literal"><span class="pre">has_alpha</span></tt> est mis à 1, et les parties
+ne provenant pas de l&#8217;image source sont transparentes ; le but est qu&#8217;elles
+n&#8217;apparaissent pas lors de l&#8217;affichage.</p>
+<p>Si <tt class="docutils literal"><span class="pre">quality</span> <span class="pre">=</span> <span class="pre">1</span></tt>, l&#8217;algorithme utilisé lisse le résultat (avec une interpolation
+bilinéaire) ; si <tt class="docutils literal"><span class="pre">quality</span> <span class="pre">=</span> <span class="pre">0</span></tt>, l&#8217;algorithme privilégie la rapidité (avec un
+calcul de plus proche voisin), ce qui permet de gagner environ un facteur 3.</p>
+</dd></dl>
+
+<dl class="docutils">
+<dt>Note :</dt>
+<dd>le résultat étant indépendant du centre de rotation, il n&#8217;est pas demandé
+en paramètre ; on peut toutefois et indépendamment de la rotation elle-même,
+choisir arbitrairement un centre de rotation et calculer ses nouvelles coordonnées
+avec la fonction suivante :</dd>
+</dl>
+<dl class="function">
+<dt id="c.ez_image_rotate_point">
+void <tt class="descname">ez_image_rotate_point</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em>, double<em>&nbsp;theta</em>, int<em>&nbsp;src_x</em>, int<em>&nbsp;src_y</em>, int<em>&nbsp;*dst_x</em>, int<em>&nbsp;*dst_y</em><big>)</big><a class="headerlink" href="#c.ez_image_rotate_point" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Calcule pour un point de coordonnées <tt class="docutils literal"><span class="pre">src_x,src_y</span></tt> dans l&#8217;image source,
+les nouvelles coordonnées <tt class="docutils literal"><span class="pre">dst_x,dst_y</span></tt> du point correspondant dans l&#8217;image
+résultat.</p>
+</dd></dl>
+
+<p>L&#8217;exemple <a class="reference external" href="../../../demo-16.c">demo-16.c</a> illustre les rotations,
+sans ou avec transparence. Le centre de rotation (croix rouge) est déplaçable
+avec les flèches. On peut aussi modifier la qualité.</p>
+<p>On obtient ces fenêtres :</p>
+<div class="centrer container">
+<img alt="demo-16-1" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-16-1.png" />
+<img alt="demo-16-2" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-16-2.png" />
+<img alt="demo-16-3" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-16-3.png" />
+</div>
+</div>
+<div class="section" id="accelerer-l-affichage-des-images">
+<span id="sec-ref-pixmaps"></span><span id="index-14"></span><h2>2.13. Accélérer l&#8217;affichage des images<a class="headerlink" href="#accelerer-l-affichage-des-images" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Nous avons vu dans les sections précédentes le type <a class="reference internal" href="#c.Ez_image" title="Ez_image"><tt class="xref c c-type docutils literal"><span class="pre">Ez_image</span></tt></a> défini
+dans <a class="reference external" href="../../../ez-image.h">ez-image.h</a>.</p>
+<p>Ce type est commode pour charger des images, les transformer, les afficher.
+Toutefois, l&#8217;affichage d&#8217;une image prend quelques millisecondes à quelques
+dizaines de millisecondes, durée variable
+selon la taille de l&#8217;image et la puissance de la machine. La raison en est
+qu&#8217;à chaque affichage, <a class="reference internal" href="#c.ez_image_paint" title="ez_image_paint"><tt class="xref c c-func docutils literal"><span class="pre">ez_image_paint()</span></tt></a> refait toute la conversion depuis le type
+<a class="reference internal" href="#c.Ez_image" title="Ez_image"><tt class="xref c c-type docutils literal"><span class="pre">Ez_image</span></tt></a> en une image intermédiaire en mémoire, applique la transparence
+éventuelle, envoie le résultat à la carte graphique qui enfin l&#8217;affiche.</p>
+<p>On peut afficher la durée des opérations dans le terminal, en définissant
+une variable d&#8217;environnement puis en relançant une démo : sous Unix, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">export EZ_IMAGE_DEBUG=1</span>
+</pre></div>
+</div>
+<p>ou sous Windows, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">set EZ_IMAGE_DEBUG=1</span>
+</pre></div>
+</div>
+<p>On obtient par exemple sous Unix :</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> ./demo-14
+<span class="go">ez_image_load  file &quot;images/paper1.jpg&quot;  in 8.725 ms  w = 640  h = 480  n = 3  has_alpha = 0</span>
+<span class="go">ez_image_load  file &quot;images/tux1.png&quot;  in 1.946 ms  w = 210  h = 214  n = 4  has_alpha = 1</span>
+<span class="go">ez_xi_create  w = 640  h = 480  depth = 24  bpp = 32</span>
+<span class="go">ez_xi_fill_24 2.875 ms</span>
+<span class="go">ez_xi_create  w = 210  h = 214  depth = 24  bpp = 32</span>
+<span class="go">ez_xi_fill_24 0.132 ms</span>
+<span class="go">ez_xmask_create   fill 0.119 ms   bitmap 5.610 ms</span>
+</pre></div>
+</div>
+<p>Pour supprimer cette variable d&#8217;environnement sous Unix, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">unset EZ_IMAGE_DEBUG</span>
+</pre></div>
+</div>
+<p>ou sous Windows, taper</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">set EZ_IMAGE_DEBUG=</span>
+</pre></div>
+</div>
+<p id="index-15">Dans une animation, tous ces temps s&#8217;additionnent, et lorsqu&#8217;il y a beaucoup
+d&#8217;images, l&#8217;animation risque d&#8217;être saccadée.
+La solution est simple : convertir l&#8217;image de type <a class="reference internal" href="#c.Ez_image" title="Ez_image"><tt class="xref c c-type docutils literal"><span class="pre">Ez_image</span></tt></a>
+en un pixmap de type <a class="reference internal" href="#c.Ez_pixmap" title="Ez_pixmap"><tt class="xref c c-type docutils literal"><span class="pre">Ez_pixmap</span></tt></a>, puis afficher le pixmap.</p>
+<dl class="type">
+<dt id="c.Ez_pixmap">
+typedef struct <tt class="descname">Ez_pixmap</tt><a class="headerlink" href="#c.Ez_pixmap" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Un pixmap est une image déjà convertie et stockée dans la carte graphique.
+Son affichage est donc beaucoup plus rapide, et de plus soulage
+le processeur de la machine.</p>
+<p>Une fois créé, un pixmap est non modifiable.</p>
+</dd></dl>
+
+<p>Cette solution est aussi intéressante pour afficher une image de fond
+(qui est souvent de taille importante). Dans ce cas, on gagne encore en
+efficacité en utilisant une image sans canal alpha.</p>
+<p>Le type <a class="reference internal" href="#c.Ez_pixmap" title="Ez_pixmap"><tt class="xref c c-type docutils literal"><span class="pre">Ez_pixmap</span></tt></a> est défini comme ceci :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">;</span>
+    <span class="cm">/* autres champs privés */</span>
+<span class="p">}</span> <span class="n">Ez_pixmap</span>
+</pre></div>
+</div>
+<p>Les fonctions suivantes manipulent les pixmaps :</p>
+<dl class="function">
+<dt id="c.ez_pixmap_create_from_image">
+<a class="reference internal" href="#c.Ez_pixmap" title="Ez_pixmap">Ez_pixmap</a> *<tt class="descname">ez_pixmap_create_from_image</tt><big>(</big><a class="reference internal" href="#c.Ez_image" title="Ez_image">Ez_image</a><em>&nbsp;*img</em><big>)</big><a class="headerlink" href="#c.ez_pixmap_create_from_image" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée un pixmap à partir d&#8217;une image <tt class="docutils literal"><span class="pre">img</span></tt>.
+Le pixmap conserve la transparence de l&#8217;image.
+L&#8217;image peut ensuite être libérée s&#8217;il n&#8217;y en a plus besoin.</p>
+<p>Renvoie le nouveau pixmap, ou <tt class="docutils literal"><span class="pre">NULL</span></tt> si erreur.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_pixmap_destroy">
+void <tt class="descname">ez_pixmap_destroy</tt><big>(</big><a class="reference internal" href="#c.Ez_pixmap" title="Ez_pixmap">Ez_pixmap</a><em>&nbsp;*pix</em><big>)</big><a class="headerlink" href="#c.ez_pixmap_destroy" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Détruit le pixmap <tt class="docutils literal"><span class="pre">pix</span></tt>.</p>
+<p>Les pixmaps doivent être détruits par cette fonction.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_pixmap_paint">
+void <tt class="descname">ez_pixmap_paint</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, <a class="reference internal" href="#c.Ez_pixmap" title="Ez_pixmap">Ez_pixmap</a><em>&nbsp;*pix</em>, int<em>&nbsp;x</em>, int<em>&nbsp;y</em><big>)</big><a class="headerlink" href="#c.ez_pixmap_paint" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Affiche le pixmap <tt class="docutils literal"><span class="pre">pix</span></tt> dans la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt>.</p>
+<p>Le coin supérieur gauche du pixmap est affiché aux coordonnées
+<tt class="docutils literal"><span class="pre">x,y</span></tt> dans la fenêtre.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.ez_pixmap_tile">
+void <tt class="descname">ez_pixmap_tile</tt><big>(</big><a class="reference internal" href="#c.Ez_window" title="Ez_window">Ez_window</a><em>&nbsp;win</em>, <a class="reference internal" href="#c.Ez_pixmap" title="Ez_pixmap">Ez_pixmap</a><em>&nbsp;*pix</em>, int<em>&nbsp;x</em>, int<em>&nbsp;y</em>, int<em>&nbsp;w</em>, int<em>&nbsp;h</em><big>)</big><a class="headerlink" href="#c.ez_pixmap_tile" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Affiche le pixmap <tt class="docutils literal"><span class="pre">pix</span></tt> de manière répétitive dans la fenêtre <tt class="docutils literal"><span class="pre">win</span></tt>.</p>
+<p>Le pixmap est affiché à la manière d&#8217;un papier peint dans la zone de la fenêtre
+délimitée par les coordonnées <tt class="docutils literal"><span class="pre">x,y</span></tt> (coin supérieur gauche) et
+<tt class="docutils literal"><span class="pre">x+w-1,y+h-1</span></tt> (coin inférieur droit).</p>
+</dd></dl>
+
+<p>L&#8217;exemple <a class="reference external" href="../../../demo-17.c">demo-17.c</a> permet de tester la
+vitesse d&#8217;affichage, mesurée en fps (pour <em>frame per second</em>) dans une animation.
+Utiliser les touches <tt class="docutils literal"><span class="pre">+</span></tt> et <tt class="docutils literal"><span class="pre">-</span></tt> pour modifier le nombre de balles,
+et la touche <tt class="docutils literal"><span class="pre">p</span></tt> pour activer l&#8217;utilisation des pixmaps.</p>
+<p>On obtient cette fenêtre :</p>
+<div class="centrer container">
+<img alt="demo-17" src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/snap-demo-17.png" />
+</div>
+</div>
+<div class="section" id="divers">
+<span id="sec-ref-misc"></span><h2>2.14. Divers<a class="headerlink" href="#divers" title="Lien permanent vers ce titre">¶</a></h2>
+<span class="target" id="index-16"></span><dl class="function">
+<dt id="c.ez_random">
+int <tt class="descname">ez_random</tt><big>(</big>int<em>&nbsp;n</em><big>)</big><a class="headerlink" href="#c.ez_random" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Renvoie un entier aléatoire entre 0 et <tt class="docutils literal"><span class="pre">n-1</span></tt>.</p>
+</dd></dl>
+
+<p>Remarque : le générateur de nombres aléatoires est initialisé par <a class="reference internal" href="#c.ez_init" title="ez_init"><tt class="xref c c-func docutils literal"><span class="pre">ez_init()</span></tt></a>.</p>
+<span class="target" id="index-17"></span><dl class="function">
+<dt id="c.ez_get_time">
+double <tt class="descname">ez_get_time</tt><big>(</big><big>)</big><a class="headerlink" href="#c.ez_get_time" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Renvoie le temps écoulé depuis l&#8217;<em>Epoch</em> (le 1er janvier 1970 à 0h) en
+secondes avec une précision en microsecondes.</p>
+</dd></dl>
+
+<p>Cette fonction est utile pour mesurer la durée d&#8217;un calcul : il suffit d&#8217;appeler
+<a class="reference internal" href="#c.ez_get_time" title="ez_get_time"><tt class="xref c c-func docutils literal"><span class="pre">ez_get_time()</span></tt></a> avant et après le calcul, puis d&#8217;afficher la différence :</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="kt">double</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">;</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">ez_get_time</span> <span class="p">();</span>
+<span class="n">calcul</span> <span class="p">();</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">ez_get_time</span> <span class="p">();</span>
+<span class="n">printf</span> <span class="p">(</span><span class="s">&quot;Durée du calcul : %.6f s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">t2</span><span class="o">-</span><span class="n">t1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="quicklinks">
+  <a href="../../../index.html">Retour</a> |
+  <a href="#">Haut</a> |
+  <a href="#endpage">Bas</a>
+</p>
+<h3><a href="ez-manual.html">Table des Matières</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ez-tutorial.html">1. Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">2. Manuel de référence</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#boucle-principale">2.1. Boucle principale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fenetres">2.2. Fenêtres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evenements">2.3. Évènements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#couleurs">2.4. Couleurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dessins">2.5. Dessins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#texte-et-fontes">2.6. Texte et fontes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#double-buffer-d-affichage">2.7. Double-buffer d&#8217;affichage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#timers">2.8. Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#client-data">2.9. Client-data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#le-type-image">2.10. Le type image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gestion-des-images">2.11. Gestion des images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#operations-sur-les-images">2.12. Opérations sur les images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accelerer-l-affichage-des-images">2.13. Accélérer l&#8217;affichage des images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divers">2.14. Divers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ez-install.html">3. Installation</a></li>
+</ul>
+<h3 class="indexlink">
+  <a href="genindex.html#">Index</a>
+</h3>
+
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../en/html/ez-reference.html">English</a></li>
+        <li class="right">
+          <span class="current">Français</span> |</li>
+        <li><a href="../../../index.html">EZ-Draw 1.2</a> &raquo;</li>
+        <li><a href="ez-manual.html">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Edouard Thiel.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+    <a name="endpage"></a>
+  </body>
+</html>

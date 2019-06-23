@@ -1,0 +1,33 @@
+To install easy_install3:
+
+    sudo apt-get install python3-setuptools
+
+To install or update Sphinx:
+
+    sudo easy_install3 -U Sphinx
+
+To start a new project:
+
+    sphinx-quickstart
+
+Sphinx documentation is:
+
+    http://sphinx-doc.org/index.html
+
+
+BUG with python 3.1 : see https://bitbucket.org/birkenfeld/sphinx/issue/1411
+
+    $ make doc
+    sphinx-build -b html -d build/doctrees   . build/html
+    Running Sphinx v1.2.2
+    Exception occurred:
+      File "/usr/local/lib/python3.1/dist-packages/Sphinx-1.2.2-py3.1.egg/sphinx/util/pycompat.py", line 96, in execfile_
+        code = compile(source, filepath_enc, 'exec')
+    TypeError: compile() argument 2 must be string, not bytes
+
+    Solution :
+    $ gksu gedit /usr/local/lib/python3.1/dist-packages/Sphinx-1.2.2-py3.1.egg/sphinx/util/pycompat.py
+    then add line 95, before "try":
+        filepath_enc = str(filepath_enc, encoding='UTF-8')
+
+

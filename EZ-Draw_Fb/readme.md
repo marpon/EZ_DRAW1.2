@@ -22,7 +22,12 @@ linux 64 :
     libez-image_l64.a
     
 
+The corresponding 'header' files are
 
+        ez-draw.bi
+        ez-image.bi
+        
+        
 One point to remember is the EZ_CALLBACK define (in fact cdecl replacement) to use on the callback function collecting all events
 because the static lib functions are cdecl functions  and freebasic use stdcall as default.
 

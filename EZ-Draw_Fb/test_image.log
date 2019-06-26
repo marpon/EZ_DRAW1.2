@@ -1,0 +1,21 @@
+"D:\freebasic\FreeBASIC-1.06.0-win32\fbc.exe" -x "D:\freebasic\EZ-Draw_Fb\test_image.exe" -w pedantic -gen gcc -O 2 -Wl "-s" -s gui -v test_image.bas > test_image.log 2>&1
+
+
+FreeBASIC Compiler - Version 1.06.0 (02-17-2019), built for win32 (32bit)
+Copyright (C) 2004-2019 The FreeBASIC development team.
+standalone
+target:       win32, 486, 32bit
+compiling:    test_image.bas -o test_image.c (main module)
+compiling C:  D:\freebasic\FreeBASIC-1.06.0-win32\bin\win32\gcc.exe -m32 -march=i486 -S -nostdlib -nostdinc -Wall -Wno-unused-label -Wno-unused-function -Wno-unused-variable -Wno-unused-but-set-variable -Wno-main -Werror-implicit-function-declaration -O2 -fno-strict-aliasing -frounding-math -fno-math-errno -fwrapv -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -masm=intel "test_image.c" -o "test_image.asm"
+assembling:   D:\freebasic\FreeBASIC-1.06.0-win32\bin\win32\as.exe --32 --strip-local-absolute "test_image.asm" -o "test_image.o"
+linking:      D:\freebasic\FreeBASIC-1.06.0-win32\bin\win32\ld.exe -m i386pe -o "D:\freebasic\EZ-Draw_Fb\test_image.exe" -subsystem windows "D:\freebasic\FreeBASIC-1.06.0-win32\lib\win32\fbextra.x" --stack 1048576,1048576 -s -L "D:\freebasic\FreeBASIC-1.06.0-win32\lib\win32" -L "." "D:\freebasic\FreeBASIC-1.06.0-win32\lib\win32\crt2.o" "D:\freebasic\FreeBASIC-1.06.0-win32\lib\win32\crtbegin.o" "D:\freebasic\FreeBASIC-1.06.0-win32\lib\win32\fbrt0.o" "test_image.o" "-(" -lkernel32 -lgdi32 -lmsimg32 -luser32 -lversion -ladvapi32 -limm32 -lez-draw_w32 -lez-image_w32 -lfb -lgcc -lmsvcrt -lmingw32 -lmingwex -lmoldname -lgcc_eh "-)" "D:\freebasic\FreeBASIC-1.06.0-win32\lib\win32\crtend.o"  -s 
+
+
+link : Ok 
+
+   Size :   128 512 bytes
+
+
+   Fichier créé  : 
+            D:\freebasic\EZ-Draw_Fb\test_image.exe     
+

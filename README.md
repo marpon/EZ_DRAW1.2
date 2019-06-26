@@ -6,6 +6,7 @@
   contact Edouard.Thiel@lif.univ-mrs.fr
   
   
-added Freebasic usage for Windows / Linux 
+
+#added Freebasic usage for Windows / Linux 
 
   see EZ-Draw_fb folder

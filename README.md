@@ -1,3 +1,6 @@
-# EZ_DRAW1.2
-EZ_DRAW1.2
-Edouard.Thiel@lif.univ-mrs.fr
+# EZ_DRAW1.2 forked from 
+
+  EZ_DRAW 1.2
+  see https://pageperso.lif.univ-mrs.fr/~edouard.thiel/ez-draw/index-en.html
+  
+  contact Edouard.Thiel@lif.univ-mrs.fr
